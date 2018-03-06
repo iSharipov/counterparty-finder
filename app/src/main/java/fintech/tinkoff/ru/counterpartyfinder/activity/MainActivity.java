@@ -1,7 +1,9 @@
-package fintech.tinkoff.ru.counterpartyfinder;
+package fintech.tinkoff.ru.counterpartyfinder.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import fintech.tinkoff.ru.counterpartyfinder.R;
 
 public class MainActivity extends AppCompatActivity {
 
