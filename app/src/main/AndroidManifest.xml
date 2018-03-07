@@ -3,6 +3,7 @@
     package="fintech.tinkoff.ru.counterpartyfinder">
 
     <application
+        android:name=".app.CounterpartyFinderApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
