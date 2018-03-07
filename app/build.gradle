@@ -28,6 +28,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.10.0'
     implementation 'com.squareup.okio:okio:1.14.0'
+    implementation 'org.mapstruct:mapstruct-processor:1.2.0.Final'
+
+    provided 'org.projectlombok:lombok:1.16.20'
+    provided 'org.mapstruct:mapstruct:1.2.0.Final'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
