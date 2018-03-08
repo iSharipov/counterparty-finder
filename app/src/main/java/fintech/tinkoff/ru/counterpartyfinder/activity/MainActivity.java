@@ -9,12 +9,9 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fintech.tinkoff.ru.counterpartyfinder.R;
+import fintech.tinkoff.ru.counterpartyfinder.listener.AsyncTaskCompleteListener;
 import fintech.tinkoff.ru.counterpartyfinder.model.DataSuggestion;
-import fintech.tinkoff.ru.counterpartyfinder.rest.DaDataBody;
-import fintech.tinkoff.ru.counterpartyfinder.rest.DaDataRestClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import fintech.tinkoff.ru.counterpartyfinder.watcher.SearchTextWatcher;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mainView;
     @BindView(R.id.search)
     EditText search;
+    private static int counter = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +28,25 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mainView.setHasFixedSize(true);
         mainView.setLayoutManager(new LinearLayoutManager(this));
-        DaDataRestClient.getInstance().suggestAsync(new DaDataBody("7", 10), new Callback<DataSuggestion>() {
-            @Override
-            public void onResponse(Call<DataSuggestion> call, Response<DataSuggestion> response) {
-                System.out.println(response);
-            }
+    }
 
-            @Override
-            public void onFailure(Call<DataSuggestion> call, Throwable t) {
-                System.out.println(t);
-            }
-        });
+    class SuggestionTaskCompleteListener implements AsyncTaskCompleteListener<DataSuggestion> {
+
+        @Override
+        public void onTaskComplete(DataSuggestion result) {
+            System.out.println(result);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        search.addTextChangedListener(new SearchTextWatcher(counter, new SuggestionTaskCompleteListener()));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        search.addTextChangedListener(null);
     }
 }
