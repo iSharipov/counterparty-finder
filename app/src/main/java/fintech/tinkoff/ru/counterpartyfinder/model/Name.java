@@ -11,8 +11,10 @@ import io.realm.RealmObject;
  */
 @lombok.Data
 public class Name extends RealmObject implements Serializable {
-    private String full_with_opf;
-    private String short_with_opf;
+    @SerializedName("full_with_opf")
+    private String fullWithOpf;
+    @SerializedName("short_with_opf")
+    private String shortWithOpf;
     private String latin;
     private String full;
     @SerializedName("short")

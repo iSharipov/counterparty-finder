@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "DADATA_API_KEY", "\"e2fc3b49a3c1d82d723cc889a334d95f7a9245ab\""
     }
     buildTypes {
         release {
@@ -37,7 +38,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.16.20'
     annotationProcessor 'org.projectlombok:lombok:1.16.20'
-    annotationProcessor 'org.mapstruct:mapstruct:1.2.0.Final'
+    compileOnly 'org.mapstruct:mapstruct:1.2.0.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 
     testImplementation 'junit:junit:4.12'
