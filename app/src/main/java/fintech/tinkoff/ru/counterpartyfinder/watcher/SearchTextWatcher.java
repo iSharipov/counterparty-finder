@@ -13,6 +13,7 @@ import fintech.tinkoff.ru.counterpartyfinder.rest.DaDataRestClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * 08.03.2018.
@@ -33,19 +34,23 @@ public class SearchTextWatcher implements TextWatcher {
     public void afterTextChanged(final Editable s) {
         timer.cancel();
         timer = new Timer();
-        long delay = 500;
+        long delay = 300;
         timer.schedule(new TimerTask() {
                            @Override
                            public void run() {
+                               completeListener.startProgress();
                                DaDataRestClient.getInstance().suggestAsync(new DaDataBody(s.toString(), counter), new Callback<DataSuggestion>() {
                                    @Override
                                    public void onResponse(Call<DataSuggestion> call, Response<DataSuggestion> response) {
                                        completeListener.onTaskComplete(response.body());
+                                       completeListener.stopProgress();
                                    }
 
                                    @Override
                                    public void onFailure(Call<DataSuggestion> call, Throwable t) {
-                                       System.out.println(t);
+                                       Timber.e(t);
+                                       completeListener.onTaskFailure(t);
+                                       completeListener.stopProgress();
                                    }
                                });
                            }

@@ -6,4 +6,10 @@ package fintech.tinkoff.ru.counterpartyfinder.listener;
 
 public interface AsyncTaskCompleteListener<T> {
     void onTaskComplete(T result);
+
+    void onTaskFailure(Throwable t);
+
+    void startProgress();
+
+    void stopProgress();
 }
