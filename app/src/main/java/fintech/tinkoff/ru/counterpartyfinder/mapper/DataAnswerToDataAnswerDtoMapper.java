@@ -24,7 +24,7 @@ import io.realm.RealmList;
  */
 @Mapper
 public abstract class DataAnswerToDataAnswerDtoMapper {
-    DataAnswerToPreviewDtoMapper INSTANCE = Mappers.getMapper(DataAnswerToPreviewDtoMapper.class);
+    public static DataAnswerToDataAnswerDtoMapper INSTANCE = Mappers.getMapper(DataAnswerToDataAnswerDtoMapper.class);
 
     @Mappings({
             @Mapping(source = "data.kpp", target = "kpp"),

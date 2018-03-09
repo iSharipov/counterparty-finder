@@ -15,12 +15,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fintech.tinkoff.ru.counterpartyfinder.R;
 import fintech.tinkoff.ru.counterpartyfinder.adapter.SuggestionAdapter;
+import fintech.tinkoff.ru.counterpartyfinder.dao.BaseDao;
+import fintech.tinkoff.ru.counterpartyfinder.dto.DataAnswerDto;
 import fintech.tinkoff.ru.counterpartyfinder.dto.PreviewDto;
 import fintech.tinkoff.ru.counterpartyfinder.listener.AsyncTaskCompleteListener;
 import fintech.tinkoff.ru.counterpartyfinder.listener.RecyclerViewClickListener;
+import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToDataAnswerDtoMapper;
 import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToPreviewDtoMapper;
 import fintech.tinkoff.ru.counterpartyfinder.model.DataSuggestion;
 import fintech.tinkoff.ru.counterpartyfinder.watcher.SearchTextWatcher;
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view, int position) {
-
+            DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
+            Realm realm = Realm.getDefaultInstance();
+            BaseDao.add(realm, dataAnswerDto);
+            List<DataAnswerDto> all = BaseDao.getAll(realm, DataAnswerDto.class);
         }
     }
 

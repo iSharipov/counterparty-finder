@@ -39,7 +39,6 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionListViewHo
     @Override
     public void onBindViewHolder(@NonNull SuggestionListViewHolder holder, int position) {
         PreviewDto previewDto = previewDtos.get(position);
-
         holder.getCounterpartyName().setText(previewDto.getCounterpartyName());
         holder.getInn().setText(previewDto.getInn());
         holder.getAddress().setText(previewDto.getAddress());

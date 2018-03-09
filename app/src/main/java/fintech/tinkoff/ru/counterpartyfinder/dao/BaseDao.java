@@ -28,7 +28,7 @@ public final class BaseDao {
     }
 
     public static <T extends RealmModel> List<T> getAll(Realm realm, Class<T> clazz) {
-        return realm.copyFromRealm(realm.where(clazz).findAll());
+        return realm.copyFromRealm(realm.where(clazz).findAllAsync());
     }
 
     private static <T extends RealmModel, Tkey> T findByKey(Realm realm, Class<T> clazz, Tkey key) {

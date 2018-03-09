@@ -1,5 +1,7 @@
 package fintech.tinkoff.ru.counterpartyfinder.dto;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -50,4 +52,6 @@ public class DataAnswerDto extends RealmObject {
     private RealmList<String> emails = new RealmList<>();
     private String ogrnDate;
     private String okvedType;
+    private String tapDate = new Date().toString();
+    private Boolean isFavorite = Boolean.FALSE;
 }
