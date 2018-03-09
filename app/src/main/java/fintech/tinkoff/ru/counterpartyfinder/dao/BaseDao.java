@@ -1,5 +1,7 @@
 package fintech.tinkoff.ru.counterpartyfinder.dao;
 
+import android.os.AsyncTask;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,8 +17,8 @@ import io.realm.RealmObjectSchema;
 public final class BaseDao {
     private static final Map<Class<? extends RealmModel>, String> primaryKeyMap = new ConcurrentHashMap<>();
 
-    public static <T extends RealmModel> void add(Realm realm, T t) {
-        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(t));
+    public static <T extends RealmModel> void add(T t) {
+        new AsyncModelAdder<>().execute(t);
     }
 
     public static <T extends RealmModel> T get(Realm realm, Class<T> clazz, String key) {
@@ -46,11 +48,21 @@ public final class BaseDao {
         if (primaryKey != null)
             return primaryKey;
         RealmObjectSchema schema = realm.getSchema().get(clazz.getSimpleName());
-        if (!schema.hasPrimaryKey())
+        if (schema == null || !schema.hasPrimaryKey()) {
             return null;
+        }
         primaryKey = schema.getPrimaryKey();
         primaryKeyMap.put(clazz, primaryKey);
         return primaryKey;
     }
 
+    private static class AsyncModelAdder<T extends RealmModel> extends AsyncTask<T, Void, Void> {
+        @SafeVarargs
+        protected final Void doInBackground(T... params) {
+            try (Realm realm = Realm.getDefaultInstance()) {
+                realm.executeTransaction(realm1 -> realm1.insertOrUpdate(params[0]));
+            }
+            return null;
+        }
+    }
 }

@@ -76,9 +76,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view, int position) {
             DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
-            Realm realm = Realm.getDefaultInstance();
-            BaseDao.add(realm, dataAnswerDto);
-            List<DataAnswerDto> all = BaseDao.getAll(realm, DataAnswerDto.class);
+            BaseDao.add(dataAnswerDto);
+
         }
     }
 
