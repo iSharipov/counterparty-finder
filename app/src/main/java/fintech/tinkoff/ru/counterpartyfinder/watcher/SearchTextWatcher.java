@@ -34,11 +34,11 @@ public class SearchTextWatcher implements TextWatcher {
     public void afterTextChanged(final Editable s) {
         timer.cancel();
         timer = new Timer();
-        long delay = 300;
+        long delay = 1000;
+        completeListener.startProgress();
         timer.schedule(new TimerTask() {
                            @Override
                            public void run() {
-                               completeListener.startProgress();
                                DaDataRestClient.getInstance().suggestAsync(new DaDataBody(s.toString(), counter), new Callback<DataSuggestion>() {
                                    @Override
                                    public void onResponse(Call<DataSuggestion> call, Response<DataSuggestion> response) {

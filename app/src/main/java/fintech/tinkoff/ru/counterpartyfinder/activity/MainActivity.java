@@ -6,13 +6,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fintech.tinkoff.ru.counterpartyfinder.R;
+import fintech.tinkoff.ru.counterpartyfinder.adapter.SuggestionAdapter;
+import fintech.tinkoff.ru.counterpartyfinder.dto.PreviewDto;
 import fintech.tinkoff.ru.counterpartyfinder.listener.AsyncTaskCompleteListener;
+import fintech.tinkoff.ru.counterpartyfinder.listener.SuggestionAdapterListener;
+import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToPreviewDtoMapper;
 import fintech.tinkoff.ru.counterpartyfinder.model.DataSuggestion;
 import fintech.tinkoff.ru.counterpartyfinder.watcher.SearchTextWatcher;
 
@@ -23,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.search)
     EditText search;
     @BindView(R.id.pb_loading_indicator)
-    ProgressBar progressBar;
+    FrameLayout progressBar;
 
     private static int counter = 10;
     private DataSuggestion dataSuggestion;
@@ -62,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateUI() {
-
+        List<PreviewDto> previews = DataAnswerToPreviewDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions());
+        SuggestionAdapter adapter = new SuggestionAdapter(previews, new SuggestionAdapterListener());
+        mainView.setAdapter(adapter);
     }
 
     @Override
