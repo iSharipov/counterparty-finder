@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * 07.03.2018.
  */
 
-public class BranchType extends RealmObject implements Serializable {
+public class BranchType implements Serializable {
     private String branchType;
 
     public Branch getBranchType() {
@@ -20,18 +20,3 @@ public class BranchType extends RealmObject implements Serializable {
     }
 }
 
-enum Branch {
-
-    MAIN("головная организация"),
-    BRANCH("филиал");
-
-    private String description;
-
-    Branch(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-}

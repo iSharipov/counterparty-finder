@@ -3,23 +3,18 @@ package fintech.tinkoff.ru.counterpartyfinder.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import lombok.EqualsAndHashCode;
 
 //import io.realm.RealmObject;
 
 /**
  * 27.02.2018.
  */
-@EqualsAndHashCode(callSuper = true)
 @lombok.Data
-public class Data extends RealmObject implements Serializable {
-
-    @PrimaryKey
-    private String uuid;
+public class Data implements Serializable {
 
     private String kpp;
     private String capital;
@@ -30,6 +25,7 @@ public class Data extends RealmObject implements Serializable {
     private Long branchCount;
     private String source;
     private String qc;
+    @PrimaryKey
     private String hid;
     private String type;
     private State state;
@@ -39,13 +35,13 @@ public class Data extends RealmObject implements Serializable {
     private String ogrn;
     private String okpo;
     private String okved;
-    private RealmList<String> okveds = new RealmList<>();
-    private RealmList<String> authoroties = new RealmList<>();
-    private RealmList<String> documents = new RealmList<>();
-    private RealmList<String> licenses = new RealmList<>();
+    private List<String> okveds = new ArrayList<>();
+    private List<String> authorities = new ArrayList<>();
+    private List<String> documents = new ArrayList<>();
+    private List<String> licenses = new ArrayList<>();
     private Address address;
-    private RealmList<String> phones = new RealmList<>();
-    private RealmList<String> emails = new RealmList<>();
+    private List<String> phones = new ArrayList<>();
+    private List<String> emails = new ArrayList<>();
     @SerializedName("ogrn_date")
     private Long ogrnDate;
     @SerializedName("okved_type")

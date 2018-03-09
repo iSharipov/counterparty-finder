@@ -1,18 +1,17 @@
 package fintech.tinkoff.ru.counterpartyfinder.model;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
+import java.io.Serializable;
+import java.util.List;
+
 import io.realm.annotations.PrimaryKey;
-import lombok.EqualsAndHashCode;
 
 /**
  * 08.03.2018.
  */
-@EqualsAndHashCode(callSuper = true)
 @lombok.Data
-public class DataSuggestion extends RealmObject {
+public class DataSuggestion implements Serializable {
     @PrimaryKey
     private String uuid;
 
-    private RealmList<DataAnswer> suggestions;
+    private List<DataAnswer> suggestions;
 }

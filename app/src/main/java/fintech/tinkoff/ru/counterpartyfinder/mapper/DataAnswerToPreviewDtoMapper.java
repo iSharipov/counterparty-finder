@@ -16,7 +16,7 @@ import fintech.tinkoff.ru.counterpartyfinder.model.DataAnswer;
 @Mapper
 public interface DataAnswerToPreviewDtoMapper {
 
-    public DataAnswerToPreviewDtoMapper INSTANCE = Mappers.getMapper(DataAnswerToPreviewDtoMapper.class);
+    DataAnswerToPreviewDtoMapper INSTANCE = Mappers.getMapper(DataAnswerToPreviewDtoMapper.class);
 
     @Mappings({
             @Mapping(target = "counterpartyName", source = "value"),

@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * 07.03.2018.
  */
 
-public class DataStatus extends RealmObject implements Serializable {
+public class DataStatus implements Serializable {
     private String status;
 
     public Status getStatus() {
@@ -21,14 +21,3 @@ public class DataStatus extends RealmObject implements Serializable {
 
 }
 
-enum Status {
-    ACTIVE("действующая"),
-    LIQUIDATING("ликвидируется"),
-    LIQUIDATED("ликвидирована");
-
-    private String description;
-
-    Status(String description) {
-        this.description = description;
-    }
-}
