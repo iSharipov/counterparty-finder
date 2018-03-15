@@ -7,8 +7,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-import fintech.tinkoff.ru.counterpartyfinder.dto.PreviewDto;
-import fintech.tinkoff.ru.counterpartyfinder.model.DataAnswer;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.dto.PreviewDto;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataAnswer;
 
 /**
  * 08.03.2018.

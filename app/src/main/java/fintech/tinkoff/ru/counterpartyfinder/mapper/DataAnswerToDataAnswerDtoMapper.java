@@ -10,13 +10,13 @@ import org.mapstruct.factory.Mappers;
 import java.util.Date;
 import java.util.List;
 
-import fintech.tinkoff.ru.counterpartyfinder.dto.DataAnswerDto;
-import fintech.tinkoff.ru.counterpartyfinder.model.Branch;
-import fintech.tinkoff.ru.counterpartyfinder.model.Data;
-import fintech.tinkoff.ru.counterpartyfinder.model.DataAnswer;
-import fintech.tinkoff.ru.counterpartyfinder.model.State;
-import fintech.tinkoff.ru.counterpartyfinder.model.Status;
-import fintech.tinkoff.ru.counterpartyfinder.model.Type;
+import fintech.tinkoff.ru.counterpartyfinder.data.db.repository.model.DataAnswerDto;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.Branch;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.Data;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataAnswer;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.State;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.Status;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.Type;
 import io.realm.RealmList;
 
 /**
