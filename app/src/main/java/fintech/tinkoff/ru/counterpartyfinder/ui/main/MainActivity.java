@@ -14,15 +14,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fintech.tinkoff.ru.counterpartyfinder.R;
-import fintech.tinkoff.ru.counterpartyfinder.ui.main.adapter.SuggestionAdapter;
 import fintech.tinkoff.ru.counterpartyfinder.data.db.repository.BaseDao;
 import fintech.tinkoff.ru.counterpartyfinder.data.db.repository.model.DataAnswerDto;
 import fintech.tinkoff.ru.counterpartyfinder.data.network.dto.PreviewDto;
-import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListener;
-import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataSuggestion;
 import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToDataAnswerDtoMapper;
 import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToPreviewDtoMapper;
-import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataSuggestion;
+import fintech.tinkoff.ru.counterpartyfinder.ui.main.adapter.SuggestionAdapter;
+import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListener;
+import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
+import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.SuggestionItemClickListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.watcher.SearchTextWatcher;
 
 public class MainActivity extends AppCompatActivity {
@@ -70,19 +71,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class SuggestionListClickListener implements RecyclerViewClickListener {
-
-        @Override
-        public void onClick(View view, int position) {
-            DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
-            BaseDao.add(dataAnswerDto);
-
-        }
-    }
-
     private void populateUI() {
         List<PreviewDto> previews = DataAnswerToPreviewDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions());
-        SuggestionAdapter adapter = new SuggestionAdapter(previews, new SuggestionListClickListener());
+        SuggestionAdapter adapter = new SuggestionAdapter(previews);
         mainView.setAdapter(adapter);
     }
 
@@ -90,6 +81,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         search.addTextChangedListener(new SearchTextWatcher(counter, new SuggestionTaskCompleteListener()));
+        mainView.addOnItemTouchListener(new SuggestionItemClickListener(this, mainView, new RecyclerViewClickListener() {
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onClick(View view, int position) {
+                DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
+                BaseDao.add(dataAnswerDto);
+            }
+        }));
     }
 
     @Override
