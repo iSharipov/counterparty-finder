@@ -24,7 +24,7 @@ public class SearchTextWatcher implements TextWatcher {
 
     private Timer timer = new Timer();
     private final int counter;
-    private AsyncTaskCompleteListener<DataSuggestion> completeListener;
+    private final AsyncTaskCompleteListener<DataSuggestion> completeListener;
 
     public SearchTextWatcher(int counter, AsyncTaskCompleteListener<DataSuggestion> completeListener) {
         this.counter = counter;
@@ -36,13 +36,11 @@ public class SearchTextWatcher implements TextWatcher {
         final Handler handler = new Handler();
         timer.cancel();
         timer = new Timer();
-        long delay = 1000;
+        long delay = 400;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                handler.post(() -> {
-                    completeListener.startProgress();
-                });
+                handler.post(completeListener::startProgress);
                 DaDataRestClient.getInstance().suggestAsync(new DaDataBody(s.toString(), counter), new Callback<DataSuggestion>() {
                     @Override
                     public void onResponse(Call<DataSuggestion> call, Response<DataSuggestion> response) {
