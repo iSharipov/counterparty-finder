@@ -1,7 +1,5 @@
 package fintech.tinkoff.ru.counterpartyfinder.data.network;
 
-import android.support.annotation.NonNull;
-
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -12,10 +10,8 @@ import java.io.IOException;
 import fintech.tinkoff.ru.counterpartyfinder.BuildConfig;
 import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataSuggestion;
 import io.realm.RealmObject;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -46,20 +42,16 @@ public class DaDataRestClient {
                     }
                 }).create();
 
-        OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(@NonNull Chain chain) throws IOException {
-                Request request = chain
-                        .request()
-                        .newBuilder()
-                        .addHeader("Content-Type", "application/json")
-                        .addHeader("Accept", "application/json")
-                        .addHeader("Authorization", "Token ".concat(BuildConfig.DADATA_API_KEY))
-                        .build();
-
-                return chain.proceed(request);
-            }
-        }).build();
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(chain -> {
+                    Request request = chain
+                            .request()
+                            .newBuilder()
+                            .addHeader("Content-Type", "application/json")
+                            .addHeader("Accept", "application/json")
+                            .addHeader("Authorization", "Token ".concat(BuildConfig.DADATA_API_KEY))
+                            .build();
+                    return chain.proceed(request);
+                }).build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

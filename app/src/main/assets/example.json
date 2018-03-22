@@ -1,0 +1,61 @@
+{
+  "body": {
+    "suggestions": [
+      {
+        "value": "ООО \"МОТОРИКА\"",
+        "unrestricted_value": "ООО \"МОТОРИКА\"",
+        "data": {
+          "kpp": "775101001",
+          "capital": null,
+          "management": {
+            "name": "Чех Илья Игоревич",
+            "post": "Генеральный директор"
+          },
+          "branch_type": "MAIN",
+          "branch_count": 0,
+          "source": null,
+          "qc": null,
+          "hid": "a498ee35e0b125380cff43434ae9c2f1ac3742c6636ceb327afaaa54d247e7cc",
+          "type": "LEGAL",
+          "state": {
+            "status": "ACTIVE",
+            "actuality_date": 1488326400000,
+            "registration_date": 1423094400000,
+            "liquidation_date": null
+          },
+          "opf": {
+            "type": null,
+            "code": "12300",
+            "full": "Общество с ограниченной ответственностью",
+            "short": "ООО"
+          },
+          "name": {
+            "full_with_opf": "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"МОТОРИКА\"",
+            "short_with_opf": "ООО \"МОТОРИКА\"",
+            "latin": null,
+            "full": "МОТОРИКА",
+            "short": "МОТОРИКА"
+          },
+          "inn": "7719402047",
+          "ogrn": "1157746078984",
+          "okpo": null,
+          "okved": "72.19",
+          "okveds": null,
+          "authorities": null,
+          "documents": null,
+          "licenses": null,
+          "address": {
+            "value": "г Москва, г Троицк, Сиреневый б-р, д 1",
+            "unrestricted_value": "г Москва, г Троицк, Троицкий округ, Сиреневый б-р, д 1",
+            "data": {
+            }
+          },
+          "phones": null,
+          "emails": null,
+          "ogrn_date": 1423094400000,
+          "okved_type": "2014"
+        }
+      }
+    ]
+  }
+}

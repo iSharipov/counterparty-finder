@@ -20,6 +20,7 @@ import fintech.tinkoff.ru.counterpartyfinder.data.network.dto.PreviewDto;
 import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataSuggestion;
 import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToDataAnswerDtoMapper;
 import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToPreviewDtoMapper;
+import fintech.tinkoff.ru.counterpartyfinder.ui.detail.DetailActivity;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.adapter.SuggestionAdapter;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
@@ -90,7 +91,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
-                BaseDao.add(dataAnswerDto);
+                if (dataAnswerDto != null) {
+                    BaseDao.add(dataAnswerDto);
+                    DetailActivity.start(MainActivity.this, dataAnswerDto);
+                }
+                Toast.makeText(MainActivity.this, "Details must not be null", Toast.LENGTH_SHORT).show();
             }
         }));
     }
@@ -99,5 +104,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         search.addTextChangedListener(null);
+        mainView.addOnItemTouchListener(null);
     }
 }

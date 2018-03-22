@@ -27,6 +27,8 @@ public abstract class DataAnswerToDataAnswerDtoMapper {
     public static DataAnswerToDataAnswerDtoMapper INSTANCE = Mappers.getMapper(DataAnswerToDataAnswerDtoMapper.class);
 
     @Mappings({
+            @Mapping(source = "value", target = "value"),
+            @Mapping(source = "unrestrictedValue", target = "unrestrictedValue"),
             @Mapping(source = "data.kpp", target = "kpp"),
             @Mapping(source = "data.capital", target = "capital"),
             @Mapping(source = "data.branchCount", target = "branchCount"),
@@ -84,6 +86,6 @@ public abstract class DataAnswerToDataAnswerDtoMapper {
     }
 
     private String convertLongToDateString(Long time) {
-        return (time != null) ? new Date(time).toString() : null;
+        return (time != null) ? new Date(time).toString() : "";
     }
 }

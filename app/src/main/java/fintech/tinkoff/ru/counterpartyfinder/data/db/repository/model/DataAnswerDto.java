@@ -1,5 +1,6 @@
 package fintech.tinkoff.ru.counterpartyfinder.data.db.repository.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmList;
@@ -13,9 +14,11 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DataAnswerDto extends RealmObject {
+public class DataAnswerDto extends RealmObject implements Serializable {
     @PrimaryKey
     private String hid;
+    private String value;
+    private String unrestrictedValue;
     private String kpp;
     private String capital;
     private String managementName;
