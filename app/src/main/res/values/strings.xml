@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Counterparty Finder</string>
     <string name="hint_text">Введите ИНН или ОГРН</string>
+    <string name="error_loading">Во время загрузки произошла ошибка</string>
 </resources>

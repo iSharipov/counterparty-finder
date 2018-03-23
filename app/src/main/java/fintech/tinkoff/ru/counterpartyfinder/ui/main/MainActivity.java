@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     public EditText search;
     @BindView(R.id.pb_loading_indicator)
     public FrameLayout progressBar;
+    @BindView(R.id.error_layout)
+    public View errorView;
 
     private static int counter = 20;
     private DataSuggestion dataSuggestion;
@@ -58,11 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTaskFailure(Throwable t) {
+            errorView.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void startProgress() {
+            errorView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
         }
 

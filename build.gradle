@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+
     repositories {
         google()
         jcenter()
@@ -25,3 +25,15 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext.versions = [ANDROID_SUPPORT  : "27.1.0",
+                CONSTRAINT_LAYOUT: "1.1.0-beta6",
+                ESPRESSO         : "2.2.2",
+                RETROFIT         : "2.3.0",
+                OK_HTTP          : "3.10.0",
+                BUTTERKNIFE      : "8.8.1",
+                TIMBER           : "4.6.1",
+                ARCH_LIFE_CYCLE  : "1.1.0",
+                LOMBOK           : "1.16.20",
+                MAPSTRUCT        : "1.2.0.Final"
+]
