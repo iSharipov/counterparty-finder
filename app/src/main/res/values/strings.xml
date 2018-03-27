@@ -2,4 +2,12 @@
     <string name="app_name">Counterparty Finder</string>
     <string name="hint_text">Введите ИНН или ОГРН</string>
     <string name="error_loading">Во время загрузки произошла ошибка</string>
+    <string name="kpp_label">КПП</string>
+    <string name="ogrn_label">ОГРН</string>
+    <string name="okved_label">ОКВЭД</string>
+    <string name="okved_code_label">Код</string>
+    <string name="okved_version_list_label">Версия справочника</string>
+    <string name="management_label">Руководитель</string>
+    <string name="management_fio_label">ФИО</string>
+    <string name="management_post_label">Должность</string>
 </resources>

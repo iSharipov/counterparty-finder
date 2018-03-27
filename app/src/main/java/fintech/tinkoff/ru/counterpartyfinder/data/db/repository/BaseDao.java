@@ -18,7 +18,7 @@ public final class BaseDao {
     private static final Map<Class<? extends RealmModel>, String> primaryKeyMap = new ConcurrentHashMap<>();
 
     public static <T extends RealmModel> void add(T t) {
-        new AsyncModelAdder<>().execute(t);
+        new AsyncModelAdder<>().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, t);
     }
 
     public static <T extends RealmModel> T get(Realm realm, Class<T> clazz, String key) {

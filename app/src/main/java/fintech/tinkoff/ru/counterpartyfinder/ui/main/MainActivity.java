@@ -98,8 +98,9 @@ public class MainActivity extends AppCompatActivity {
                 if (dataAnswerDto != null) {
                     BaseDao.add(dataAnswerDto);
                     DetailActivity.start(MainActivity.this, dataAnswerDto);
+                } else {
+                    Toast.makeText(MainActivity.this, "Details must not be null", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(MainActivity.this, "Details must not be null", Toast.LENGTH_SHORT).show();
             }
         }));
     }

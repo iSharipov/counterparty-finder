@@ -35,5 +35,6 @@ ext.versions = [ANDROID_SUPPORT  : "27.1.0",
                 TIMBER           : "4.6.1",
                 ARCH_LIFE_CYCLE  : "1.1.0",
                 LOMBOK           : "1.16.20",
-                MAPSTRUCT        : "1.2.0.Final"
+                MAPSTRUCT        : "1.2.0.Final",
+                COMMONS_LANG     : "3.7"
 ]
