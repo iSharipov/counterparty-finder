@@ -20,9 +20,11 @@ import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickL
 public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionListViewHolder> {
 
     private final List<PreviewDto> previewDtos;
+    private final RecyclerViewClickListener clickListener;
 
-    public SuggestionAdapter(List<PreviewDto> previewDtos) {
+    public SuggestionAdapter(List<PreviewDto> previewDtos, RecyclerViewClickListener clickListener) {
         this.previewDtos = previewDtos;
+        this.clickListener = clickListener;
     }
 
 
@@ -31,7 +33,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionListViewHo
     public SuggestionListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.suggestion_layout_row, parent, false);
-        return new SuggestionListViewHolder(v);
+        return new SuggestionListViewHolder(v, clickListener);
     }
 
     @Override

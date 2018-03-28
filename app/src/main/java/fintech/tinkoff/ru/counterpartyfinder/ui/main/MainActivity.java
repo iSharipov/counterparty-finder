@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -24,10 +25,13 @@ import fintech.tinkoff.ru.counterpartyfinder.ui.detail.DetailActivity;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.adapter.SuggestionAdapter;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
-import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.SuggestionItemClickListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.watcher.SearchTextWatcher;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String DATA_SUGGESTION = "DATA_SUGGESTION";
+    private static final String SEARCH = "SEARCH";
+    private static int counter = 20;
 
     @BindView(R.id.main_view)
     public RecyclerView mainView;
@@ -38,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.error_layout)
     public View errorView;
 
-    private static int counter = 20;
     private DataSuggestion dataSuggestion;
+    private TextWatcher textWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mainView.setHasFixedSize(true);
         mainView.setLayoutManager(new LinearLayoutManager(this));
+        if (savedInstanceState != null) {
+            dataSuggestion = (DataSuggestion) savedInstanceState.getSerializable(DATA_SUGGESTION);
+            search.setText(savedInstanceState.getString(SEARCH));
+            populateUI();
+        }
     }
 
     class SuggestionTaskCompleteListener implements AsyncTaskCompleteListener<DataSuggestion> {
@@ -76,39 +85,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class SuggestionListClickListener implements RecyclerViewClickListener {
+
+        @Override
+        public void onClick(View view, int position) {
+            DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
+            if (dataAnswerDto != null) {
+                BaseDao.add(dataAnswerDto);
+                DetailActivity.start(MainActivity.this, dataAnswerDto);
+            } else {
+                Toast.makeText(MainActivity.this, "Details must not be null", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     private void populateUI() {
         List<PreviewDto> previews = DataAnswerToPreviewDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions());
-        SuggestionAdapter adapter = new SuggestionAdapter(previews);
+        SuggestionAdapter adapter = new SuggestionAdapter(previews, new SuggestionListClickListener());
         mainView.setAdapter(adapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        search.addTextChangedListener(new SearchTextWatcher(counter, new SuggestionTaskCompleteListener()));
-        mainView.addOnItemTouchListener(new SuggestionItemClickListener(this, mainView, new RecyclerViewClickListener() {
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onClick(View view, int position) {
-                DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
-                if (dataAnswerDto != null) {
-                    BaseDao.add(dataAnswerDto);
-                    DetailActivity.start(MainActivity.this, dataAnswerDto);
-                } else {
-                    Toast.makeText(MainActivity.this, "Details must not be null", Toast.LENGTH_LONG).show();
-                }
-            }
-        }));
+        textWatcher = new SearchTextWatcher(counter, new SuggestionTaskCompleteListener());
+        search.addTextChangedListener(textWatcher);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        search.addTextChangedListener(null);
-        mainView.addOnItemTouchListener(null);
+        search.removeTextChangedListener(textWatcher);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(DATA_SUGGESTION, dataSuggestion);
+        outState.putString(SEARCH, search.getText().toString());
+        super.onSaveInstanceState(outState);
     }
 }

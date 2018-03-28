@@ -1,6 +1,7 @@
 package fintech.tinkoff.ru.counterpartyfinder.ui.main.watcher;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 
@@ -38,6 +39,10 @@ public class SearchTextWatcher implements TextWatcher {
 
     @Override
     public void afterTextChanged(final Editable s) {
+        makeQuery(s);
+    }
+
+    private void makeQuery(Editable s) {
         final Handler handler = new Handler();
         timer.cancel();
         timer = new Timer();
@@ -50,7 +55,7 @@ public class SearchTextWatcher implements TextWatcher {
                 Timber.i("Start Dadata request with params: %s", gson.toJson(daDataBody));
                 DaDataRestClient.getInstance().suggestAsync(daDataBody, new Callback<DataSuggestion>() {
                     @Override
-                    public void onResponse(Call<DataSuggestion> call, Response<DataSuggestion> response) {
+                    public void onResponse(@NonNull Call<DataSuggestion> call, @NonNull Response<DataSuggestion> response) {
                         Timber.i("Response received: %s", gson.toJson(response));
                         completeListener.onTaskComplete(response.body());
                         completeListener.stopProgress();
