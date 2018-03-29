@@ -7,6 +7,7 @@
     tools:context="fintech.tinkoff.ru.counterpartyfinder.ui.detail.DetailActivity">
 
     <ScrollView
+        android:id="@+id/scroll_detail_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
