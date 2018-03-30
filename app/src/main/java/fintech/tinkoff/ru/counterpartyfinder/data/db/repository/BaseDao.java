@@ -1,7 +1,5 @@
 package fintech.tinkoff.ru.counterpartyfinder.data.db.repository;
 
-import android.os.AsyncTask;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,8 +15,10 @@ import io.realm.RealmObjectSchema;
 public final class BaseDao {
     private static final Map<Class<? extends RealmModel>, String> primaryKeyMap = new ConcurrentHashMap<>();
 
-    public static <T extends RealmModel> void add(T t) {
-        new AsyncModelAdder<>().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, t);
+    public static <T extends RealmModel> void add(Realm realm, T t) {
+        realm.beginTransaction();
+        realm.insertOrUpdate(t);
+        realm.commitTransaction();
     }
 
     public static <T extends RealmModel> T get(Realm realm, Class<T> clazz, String key) {
@@ -29,6 +29,12 @@ public final class BaseDao {
         return findByKey(realm, clazz, key);
     }
 
+    public static <T extends RealmModel> List<T> getAll(Class<T> clazz) {
+        try (Realm realm = Realm.getDefaultInstance()) {
+            return getAll(realm, clazz);
+        }
+    }
+
     public static <T extends RealmModel> List<T> getAll(Realm realm, Class<T> clazz) {
         return realm.copyFromRealm(realm.where(clazz).findAllAsync());
     }
@@ -37,10 +43,11 @@ public final class BaseDao {
         String primaryKey = getPrimaryKeyName(realm, clazz);
         if (primaryKey == null)
             return null;
-        if (key instanceof String)
+        if (key instanceof String) {
             return realm.where(clazz).equalTo(primaryKey, (String) key).findFirst();
-        else
+        } else {
             return realm.where(clazz).equalTo(primaryKey, (Long) key).findFirst();
+        }
     }
 
     private static String getPrimaryKeyName(Realm realm, Class<? extends RealmModel> clazz) {
@@ -54,15 +61,5 @@ public final class BaseDao {
         primaryKey = schema.getPrimaryKey();
         primaryKeyMap.put(clazz, primaryKey);
         return primaryKey;
-    }
-
-    private static class AsyncModelAdder<T extends RealmModel> extends AsyncTask<T, Void, Void> {
-        @SafeVarargs
-        protected final Void doInBackground(T... params) {
-            try (Realm realm = Realm.getDefaultInstance()) {
-                realm.executeTransaction(realm1 -> realm1.insertOrUpdate(params[0]));
-            }
-            return null;
-        }
     }
 }

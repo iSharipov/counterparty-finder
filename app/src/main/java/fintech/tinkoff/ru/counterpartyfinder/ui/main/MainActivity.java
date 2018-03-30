@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,6 +19,7 @@ import fintech.tinkoff.ru.counterpartyfinder.R;
 import fintech.tinkoff.ru.counterpartyfinder.data.db.repository.BaseDao;
 import fintech.tinkoff.ru.counterpartyfinder.data.db.repository.model.DataAnswerDto;
 import fintech.tinkoff.ru.counterpartyfinder.data.network.dto.PreviewDto;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataAnswer;
 import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataSuggestion;
 import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToDataAnswerDtoMapper;
 import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerToPreviewDtoMapper;
@@ -26,12 +28,14 @@ import fintech.tinkoff.ru.counterpartyfinder.ui.main.adapter.SuggestionAdapter;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.watcher.SearchTextWatcher;
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String DATA_SUGGESTION = "DATA_SUGGESTION";
     private static final String SEARCH = "SEARCH";
     private static int counter = 20;
+    private Realm realm;
 
     @BindView(R.id.main_view)
     public RecyclerView mainView;
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        realm = Realm.getDefaultInstance();
         mainView.setHasFixedSize(true);
         mainView.setLayoutManager(new LinearLayoutManager(this));
         if (savedInstanceState != null) {
@@ -57,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
             search.setText(savedInstanceState.getString(SEARCH));
             populateUI();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 
     class SuggestionTaskCompleteListener implements AsyncTaskCompleteListener<DataSuggestion> {
@@ -89,10 +100,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view, int position) {
-            DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
-            if (dataAnswerDto != null) {
-                BaseDao.add(dataAnswerDto);
-                DetailActivity.start(MainActivity.this, dataAnswerDto);
+
+            DataAnswer dataAnswer = dataSuggestion.getSuggestions().get(position);
+            if (dataAnswer != null) {
+                DataAnswerDto dataAnswerDto = DataAnswerToDataAnswerDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions().get(position));
+                DataAnswerDto dataAnswerFromRealm = BaseDao.get(realm, DataAnswerDto.class, dataAnswerDto.getHid());
+                if (dataAnswerFromRealm != null) {
+                    realm.executeTransaction(realm1 -> dataAnswerFromRealm.setTapDate(new Date().toString()));
+                } else {
+                    BaseDao.add(realm, dataAnswerDto);
+                }
+                DetailActivity.start(MainActivity.this, dataAnswerDto.getHid());
             } else {
                 Toast.makeText(MainActivity.this, "Details must not be null", Toast.LENGTH_LONG).show();
             }
