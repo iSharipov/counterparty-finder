@@ -10,4 +10,5 @@ public class PreviewDto {
     private String counterpartyName;
     private String inn;
     private String address;
+    private Boolean isFavorite;
 }

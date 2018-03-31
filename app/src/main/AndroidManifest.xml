@@ -7,6 +7,7 @@
     <application
         android:name=".app.CounterpartyFinderApp"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -23,6 +24,9 @@
         </activity>
         <activity
             android:name=".ui.detail.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.recent.RecentActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
