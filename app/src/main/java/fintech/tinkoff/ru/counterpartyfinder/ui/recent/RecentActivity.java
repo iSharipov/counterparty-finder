@@ -1,8 +1,11 @@
 package fintech.tinkoff.ru.counterpartyfinder.ui.recent;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,9 +32,15 @@ public class RecentActivity extends AppCompatActivity {
 
     private Realm realm;
     private List<DataAnswerDto> dataAnswerDtos;
+    private DividerItemDecoration dividerItemDecoration;
 
     @BindView(R.id.recent_view)
     public RecyclerView recentView;
+
+    public static void start(Activity activity) {
+        Intent intent = new Intent(activity, RecentActivity.class);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,8 +48,13 @@ public class RecentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recent);
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
-        recentView.setHasFixedSize(true);
-        recentView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recentView.setLayoutManager(linearLayoutManager);
+        dividerItemDecoration = new DividerItemDecoration(
+                recentView.getContext(),
+                linearLayoutManager.getOrientation()
+        );
+        recentView.addItemDecoration(dividerItemDecoration);
     }
 
     @Override
@@ -54,6 +68,7 @@ public class RecentActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        recentView.setAdapter(null);
     }
 
     class RecentListClickListener implements RecyclerViewClickListener {

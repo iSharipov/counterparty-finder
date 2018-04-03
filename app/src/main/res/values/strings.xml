@@ -12,4 +12,5 @@
     <string name="management_post_label">Должность</string>
     <string name="favorite">favorite</string>
     <string name="error">Ошибка</string>
+    <string name="recent">Recent</string>
 </resources>

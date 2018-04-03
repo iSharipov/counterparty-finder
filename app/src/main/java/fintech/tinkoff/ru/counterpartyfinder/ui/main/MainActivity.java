@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -28,6 +31,7 @@ import fintech.tinkoff.ru.counterpartyfinder.ui.main.adapter.SuggestionAdapter;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.watcher.SearchTextWatcher;
+import fintech.tinkoff.ru.counterpartyfinder.ui.recent.RecentActivity;
 import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     public FrameLayout progressBar;
     @BindView(R.id.error_layout)
     public View errorView;
+    @BindView(R.id.main_toolbar)
+    public Toolbar toolbar;
 
     private DataSuggestion dataSuggestion;
     private TextWatcher textWatcher;
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         realm = Realm.getDefaultInstance();
         mainView.setHasFixedSize(true);
         mainView.setLayoutManager(new LinearLayoutManager(this));
@@ -143,4 +150,20 @@ public class MainActivity extends AppCompatActivity {
         outState.putString(SEARCH, search.getText().toString());
         super.onSaveInstanceState(outState);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_recent) {
+            RecentActivity.start(this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

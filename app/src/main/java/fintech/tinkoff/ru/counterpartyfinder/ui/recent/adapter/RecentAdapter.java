@@ -45,6 +45,6 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentListViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return previewDtos.size();
     }
 }
