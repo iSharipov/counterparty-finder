@@ -34,8 +34,7 @@ import static io.realm.Sort.DESCENDING;
 public class RecentActivity extends AppCompatActivity {
 
     private Realm realm;
-    private List<DataAnswerDto> dataAnswerDtos;
-    private DividerItemDecoration dividerItemDecoration;
+    private List<DataAnswerDto> allByFieldsSorted;
     private String[] fields = new String[]{"isFavorite", "tapDate"};
     private Sort[] sorts = new Sort[]{DESCENDING, DESCENDING};
 
@@ -55,7 +54,7 @@ public class RecentActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recentView.setLayoutManager(linearLayoutManager);
-        dividerItemDecoration = new DividerItemDecoration(
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 recentView.getContext(),
                 linearLayoutManager.getOrientation()
         );
@@ -65,7 +64,7 @@ public class RecentActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        List<DataAnswerDto> allByFieldsSorted = BaseDao.getAllByFieldsSorted(realm, DataAnswerDto.class, fields, sorts);
+        allByFieldsSorted = BaseDao.getAllByFieldsSorted(realm, DataAnswerDto.class, fields, sorts);
         List<PreviewDto> previews = DataAnswerDtoToPreviewDtoMapper.INSTANCE.map(allByFieldsSorted);
         RecentAdapter adapter = new RecentAdapter(previews, new RecentListClickListener());
         recentView.setAdapter(adapter);
@@ -81,7 +80,7 @@ public class RecentActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view, int position) {
-            DataAnswerDto dataAnswerDto = dataAnswerDtos.get(position);
+            DataAnswerDto dataAnswerDto = allByFieldsSorted.get(position);
             if (dataAnswerDto != null) {
                 DetailActivity.start(RecentActivity.this, dataAnswerDto.getHid());
             } else {
