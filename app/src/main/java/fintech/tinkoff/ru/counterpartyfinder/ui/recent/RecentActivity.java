@@ -24,6 +24,9 @@ import fintech.tinkoff.ru.counterpartyfinder.ui.detail.DetailActivity;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.recent.adapter.RecentAdapter;
 import io.realm.Realm;
+import io.realm.Sort;
+
+import static io.realm.Sort.DESCENDING;
 
 /**
  * 31.03.2018.
@@ -33,6 +36,8 @@ public class RecentActivity extends AppCompatActivity {
     private Realm realm;
     private List<DataAnswerDto> dataAnswerDtos;
     private DividerItemDecoration dividerItemDecoration;
+    private String[] fields = new String[]{"isFavorite", "tapDate"};
+    private Sort[] sorts = new Sort[]{DESCENDING, DESCENDING};
 
     @BindView(R.id.recent_view)
     public RecyclerView recentView;
@@ -60,7 +65,8 @@ public class RecentActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        List<PreviewDto> previews = DataAnswerDtoToPreviewDtoMapper.INSTANCE.map(BaseDao.getAll(realm, DataAnswerDto.class));
+        List<DataAnswerDto> allByFieldsSorted = BaseDao.getAllByFieldsSorted(realm, DataAnswerDto.class, fields, sorts);
+        List<PreviewDto> previews = DataAnswerDtoToPreviewDtoMapper.INSTANCE.map(allByFieldsSorted);
         RecentAdapter adapter = new RecentAdapter(previews, new RecentListClickListener());
         recentView.setAdapter(adapter);
     }

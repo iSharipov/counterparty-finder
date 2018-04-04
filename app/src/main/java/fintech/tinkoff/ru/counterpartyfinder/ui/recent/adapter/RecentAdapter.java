@@ -48,3 +48,4 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentListViewHolder> {
         return previewDtos.size();
     }
 }
+    

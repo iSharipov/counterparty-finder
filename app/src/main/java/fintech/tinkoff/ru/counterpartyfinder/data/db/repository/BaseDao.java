@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import io.realm.Realm;
 import io.realm.RealmModel;
 import io.realm.RealmObjectSchema;
+import io.realm.Sort;
 
 /**
  * 09.03.2018.
@@ -37,6 +38,14 @@ public final class BaseDao {
 
     public static <T extends RealmModel> List<T> getAll(Realm realm, Class<T> clazz) {
         return realm.copyFromRealm(realm.where(clazz).findAllAsync());
+    }
+
+    public static <T extends RealmModel> List<T> getAllByFieldsSorted(Realm realm, Class<T> clazz, String[] fields, Sort[] sorts) {
+        return realm.copyFromRealm(realm.where(clazz).sort(fields, sorts).findAllAsync());
+    }
+
+    public static <T extends RealmModel> List<T> getAllByFieldSorted(Realm realm, Class<T> clazz, String field, Sort sort) {
+        return getAllByFieldsSorted(realm, clazz, new String[]{field}, new Sort[]{sort});
     }
 
     private static <T extends RealmModel, Tkey> T findByKey(Realm realm, Class<T> clazz, Tkey key) {
