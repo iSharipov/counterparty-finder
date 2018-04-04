@@ -85,4 +85,8 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentListViewHolder> im
             }
         };
     }
+
+    public List<PreviewDto> getPreviewDtosFiltered() {
+        return previewDtosFiltered;
+    }
 }

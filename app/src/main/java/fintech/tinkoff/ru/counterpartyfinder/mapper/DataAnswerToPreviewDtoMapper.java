@@ -19,6 +19,7 @@ public interface DataAnswerToPreviewDtoMapper {
     DataAnswerToPreviewDtoMapper INSTANCE = Mappers.getMapper(DataAnswerToPreviewDtoMapper.class);
 
     @Mappings({
+            @Mapping(target = "hid", source = "data.hid"),
             @Mapping(target = "counterpartyName", source = "value"),
             @Mapping(target = "inn", source = "data.inn"),
             @Mapping(target = "address", source = "data.address.value")

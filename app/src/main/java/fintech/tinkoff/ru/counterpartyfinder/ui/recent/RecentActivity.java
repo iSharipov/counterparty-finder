@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +31,8 @@ import fintech.tinkoff.ru.counterpartyfinder.data.db.repository.model.DataAnswer
 import fintech.tinkoff.ru.counterpartyfinder.data.network.dto.PreviewDto;
 import fintech.tinkoff.ru.counterpartyfinder.mapper.DataAnswerDtoToPreviewDtoMapper;
 import fintech.tinkoff.ru.counterpartyfinder.ui.detail.DetailActivity;
+import fintech.tinkoff.ru.counterpartyfinder.ui.detail.swipe.SwipeController;
+import fintech.tinkoff.ru.counterpartyfinder.ui.detail.swipe.SwipeControllerActions;
 import fintech.tinkoff.ru.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import fintech.tinkoff.ru.counterpartyfinder.ui.recent.adapter.RecentAdapter;
 import io.realm.Realm;
@@ -65,7 +69,18 @@ public class RecentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recent);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Избранное");
+        getSupportActionBar().setTitle(R.string.recent_title);
+        SwipeController swipeController = new SwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                BaseDao.remove(realm, DataAnswerDto.class, recentAdapter.getPreviewDtosFiltered().get(position).getHid());
+                recentAdapter.getPreviewDtosFiltered().remove(position);
+                recentAdapter.notifyItemRemoved(position);
+                recentAdapter.notifyItemRangeChanged(position, recentAdapter.getItemCount());
+            }
+        });
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recentView);
         realm = Realm.getDefaultInstance();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recentView.setLayoutManager(linearLayoutManager);
@@ -74,6 +89,12 @@ public class RecentActivity extends AppCompatActivity {
                 linearLayoutManager.getOrientation()
         );
         recentView.addItemDecoration(dividerItemDecoration);
+        recentView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        });
     }
 
     @Override
