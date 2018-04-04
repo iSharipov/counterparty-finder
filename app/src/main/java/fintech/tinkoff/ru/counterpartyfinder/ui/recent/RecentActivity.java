@@ -65,7 +65,7 @@ public class RecentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recent);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Избранное");
+        getSupportActionBar().setTitle(R.string.recent_title);
         realm = Realm.getDefaultInstance();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recentView.setLayoutManager(linearLayoutManager);

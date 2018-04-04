@@ -7,6 +7,7 @@ import lombok.Data;
  */
 @Data
 public class PreviewDto {
+    private String hid;
     private String counterpartyName;
     private String inn;
     private String address;
