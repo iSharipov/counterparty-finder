@@ -13,4 +13,5 @@
     <string name="favorite">favorite</string>
     <string name="error">Ошибка</string>
     <string name="recent">Recent</string>
+    <string name="recent_search">Поиск</string>
 </resources>

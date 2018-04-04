@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,27 +28,29 @@ public class DetailActivity extends AppCompatActivity {
     private Map<Boolean, Integer> bookmarkIds;
     private Realm realm;
     @BindView(R.id.bookmark)
-    public ImageView bookmark;
+    ImageView bookmark;
     @BindView(R.id.inn_detail)
-    public TextView innDetail;
+    TextView innDetail;
     @BindView(R.id.name_detail)
-    public TextView nameDetail;
+    TextView nameDetail;
     @BindView(R.id.address_detail)
-    public TextView addressDetail;
+    TextView addressDetail;
     @BindView(R.id.kpp_value)
-    public TextView kppValue;
+    TextView kppValue;
     @BindView(R.id.ogrn_value)
-    public TextView ogrnValue;
+    TextView ogrnValue;
     @BindView(R.id.okved_code_value)
-    public TextView okvedCodeValue;
+    TextView okvedCodeValue;
     @BindView(R.id.okved_type_value)
-    public TextView okvedTypeValue;
+    TextView okvedTypeValue;
     @BindView(R.id.management_fio_value)
-    public TextView managementFioValue;
+    TextView managementFioValue;
     @BindView(R.id.management_post_value)
-    public TextView managementPostValue;
+    TextView managementPostValue;
     @BindView(R.id.branch_type_value)
-    public TextView branchTypeValue;
+    TextView branchTypeValue;
+    @BindView(R.id.detail_toolbar)
+    Toolbar toolbar;
 
     public DetailActivity() {
         bookmarkIds = new HashMap<>();

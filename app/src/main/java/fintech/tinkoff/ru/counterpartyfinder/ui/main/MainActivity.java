@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Поиск");
         realm = Realm.getDefaultInstance();
         mainView.setHasFixedSize(true);
         mainView.setLayoutManager(new LinearLayoutManager(this));
