@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,8 +56,8 @@ public class DetailActivity extends AppCompatActivity {
 
     public DetailActivity() {
         bookmarkIds = new HashMap<>();
-        bookmarkIds.put(Boolean.TRUE, R.drawable.ic_bookmark_black_18dp);
-        bookmarkIds.put(Boolean.FALSE, R.drawable.ic_bookmark_border_black_18dp);
+        bookmarkIds.put(Boolean.TRUE, R.drawable.ic_bookmark_red_24dp);
+        bookmarkIds.put(Boolean.FALSE, R.drawable.ic_bookmark_border_gray_24dp);
     }
 
     public static void start(Activity activity, String hid) {
@@ -69,6 +71,8 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.detail_title);
         realm = Realm.getDefaultInstance();
         String hid = (String) getIntent().getSerializableExtra(EXTRA_INFO);
         dataAnswerDto = BaseDao.get(realm, DataAnswerDto.class, hid);
@@ -109,5 +113,35 @@ public class DetailActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         bookmark.setOnClickListener(null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_detail_share:
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Детальная информация");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, createShareMessage(dataAnswerDto));
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private String createShareMessage(DataAnswerDto dataAnswerDto) {
+        StringBuilder sb = new StringBuilder();
+        String lineSeparator = System.getProperty("line.separator");
+        sb.append("ИНН:");
+        sb.append(dataAnswerDto.getInn());
+        sb.append(lineSeparator);
+        return sb.toString();
     }
 }

@@ -16,4 +16,6 @@
     <string name="recent_search">Поиск</string>
     <string name="search_title">Поиск</string>
     <string name="recent_title">Избранное</string>
+    <string name="detail_share">Поделиться</string>
+    <string name="detail_title">Детальная информация</string>
 </resources>
