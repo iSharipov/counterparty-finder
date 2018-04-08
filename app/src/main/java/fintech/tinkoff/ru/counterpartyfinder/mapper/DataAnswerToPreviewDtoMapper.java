@@ -22,7 +22,8 @@ public interface DataAnswerToPreviewDtoMapper {
             @Mapping(target = "hid", source = "data.hid"),
             @Mapping(target = "counterpartyName", source = "value"),
             @Mapping(target = "inn", source = "data.inn"),
-            @Mapping(target = "address", source = "data.address.value")
+            @Mapping(target = "address", source = "data.address.value"),
+            @Mapping(target = "isFavorite", ignore = true)
     })
     PreviewDto map(DataAnswer answer);
 

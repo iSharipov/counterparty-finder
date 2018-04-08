@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath 'io.realm:realm-gradle-plugin:4.3.3'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -36,5 +36,6 @@ ext.versions = [ANDROID_SUPPORT  : "27.1.0",
                 ARCH_LIFE_CYCLE  : "1.1.0",
                 LOMBOK           : "1.16.20",
                 MAPSTRUCT        : "1.2.0.Final",
-                COMMONS_LANG     : "3.7"
+                COMMONS_LANG     : "3.7",
+                GOOGLE_MAPS      : "10.2.0"
 ]

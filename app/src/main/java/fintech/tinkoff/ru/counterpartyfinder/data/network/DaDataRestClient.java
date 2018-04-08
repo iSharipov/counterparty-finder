@@ -12,6 +12,7 @@ import fintech.tinkoff.ru.counterpartyfinder.data.network.model.DataSuggestion;
 import io.realm.RealmObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -41,17 +42,18 @@ public class DaDataRestClient {
                         return false;
                     }
                 }).create();
-
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(chain -> {
-                    Request request = chain
-                            .request()
-                            .newBuilder()
-                            .addHeader("Content-Type", "application/json")
-                            .addHeader("Accept", "application/json")
-                            .addHeader("Authorization", "Token ".concat(BuildConfig.DADATA_API_KEY))
-                            .build();
-                    return chain.proceed(request);
-                }).build();
+            Request request = chain
+                    .request()
+                    .newBuilder()
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Authorization", "Token ".concat(BuildConfig.DADATA_API_KEY))
+                    .build();
+            return chain.proceed(request);
+        }).addInterceptor(loggingInterceptor).build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

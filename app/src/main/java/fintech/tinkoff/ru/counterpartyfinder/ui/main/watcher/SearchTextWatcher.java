@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-import com.google.gson.Gson;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,15 +24,12 @@ import timber.log.Timber;
 public class SearchTextWatcher implements TextWatcher {
 
     private Timer timer = new Timer();
-    private final Gson gson;
     private final int counter;
     private final AsyncTaskCompleteListener<DataSuggestion> completeListener;
 
     public SearchTextWatcher(int counter, AsyncTaskCompleteListener<DataSuggestion> completeListener) {
         this.counter = counter;
         this.completeListener = completeListener;
-        this.gson = new Gson();
-
     }
 
     @Override
@@ -52,17 +47,15 @@ public class SearchTextWatcher implements TextWatcher {
             public void run() {
                 handler.post(completeListener::startProgress);
                 DaDataBody daDataBody = new DaDataBody(s.toString(), counter);
-                Timber.i("Start Dadata request with params: %s", gson.toJson(daDataBody));
                 DaDataRestClient.getInstance().suggestAsync(daDataBody, new Callback<DataSuggestion>() {
                     @Override
                     public void onResponse(@NonNull Call<DataSuggestion> call, @NonNull Response<DataSuggestion> response) {
-                        Timber.i("Response received: %s", gson.toJson(response));
                         completeListener.onTaskComplete(response.body());
                         completeListener.stopProgress();
                     }
 
                     @Override
-                    public void onFailure(Call<DataSuggestion> call, Throwable t) {
+                    public void onFailure(@NonNull Call<DataSuggestion> call, @NonNull Throwable t) {
                         Timber.e(t);
                         completeListener.onTaskFailure(t);
                         completeListener.stopProgress();

@@ -10,7 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "DADATA_API_KEY", "\"e2fc3b49a3c1d82d723cc889a334d95f7a9245ab\""
     }
     buildTypes {
         release {
@@ -33,10 +32,13 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$versions.CONSTRAINT_LAYOUT"
 
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation "com.squareup.retrofit2:retrofit:$versions.RETROFIT"
+    implementation("com.squareup.retrofit2:retrofit:$versions.RETROFIT"){
+        exclude module: 'okhttp'
+    }
     implementation "com.squareup.retrofit2:converter-gson:$versions.RETROFIT"
     implementation "com.squareup.okhttp3:okhttp:$versions.OK_HTTP"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:$versions.OK_HTTP"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.OK_HTTP"
     implementation 'com.squareup.okio:okio:1.14.0'
 
     implementation "com.jakewharton:butterknife:$versions.BUTTERKNIFE"
@@ -55,5 +57,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     implementation "org.apache.commons:commons-lang3:$versions.COMMONS_LANG"
+
+    //noinspection GradleDependency
+    implementation "com.google.android.gms:play-services-maps:$versions.GOOGLE_MAPS"
 
 }

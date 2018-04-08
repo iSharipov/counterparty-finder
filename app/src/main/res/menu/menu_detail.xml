@@ -7,7 +7,15 @@
     <item
         android:id="@+id/action_detail_share"
         android:icon="@drawable/ic_share_white_24dp"
-        android:orderInCategory="100"
+        android:orderInCategory="300"
+        android:title="@string/detail_share"
+        app:actionProviderClass="android.support.v4.view.ShareActionProvider"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_detail_map"
+        android:icon="@drawable/ic_map_white_24dp"
+        android:orderInCategory="200"
         android:title="@string/detail_share"
         app:actionProviderClass="android.support.v4.view.ShareActionProvider"
         app:showAsAction="ifRoom" />
