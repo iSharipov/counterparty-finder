@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -97,6 +98,8 @@ public class RecentActivity extends AppCompatActivity {
         public void onClick(View view, int position) {
             DataAnswerDto dataAnswerDto = allByFieldsSorted.get(position);
             if (dataAnswerDto != null) {
+                dataAnswerDto.setTapDate(new Date().toString());
+                BaseDao.add(realm, dataAnswerDto);
                 DetailActivity.start(RecentActivity.this, dataAnswerDto.getHid());
             } else {
                 Toast.makeText(RecentActivity.this, "Details must not be null", Toast.LENGTH_LONG).show();

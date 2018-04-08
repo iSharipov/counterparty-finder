@@ -1,5 +1,6 @@
 package fintech.tinkoff.ru.counterpartyfinder.ui.recent.adapter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentListViewHolder> im
         holder.getCounterpartyName().setText(previewDto.getCounterpartyName());
         holder.getInn().setText(previewDto.getInn());
         holder.getAddress().setText(previewDto.getAddress());
+        holder.itemView.setBackgroundColor(previewDto.getIsFavorite() ? Color.YELLOW : Color.WHITE);
 //        holder.getIsFavorite().setImageResource();
     }
 
