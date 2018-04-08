@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildTypes.each {
+        it.buildConfigField "String", "DADATA_API_KEY", DadataApiKey
+        it.buildConfigField "String", "GOOGLE_MAPS_API_KEY", GoogleMapsApiKey
+    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -32,7 +36,7 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$versions.CONSTRAINT_LAYOUT"
 
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation("com.squareup.retrofit2:retrofit:$versions.RETROFIT"){
+    implementation("com.squareup.retrofit2:retrofit:$versions.RETROFIT") {
         exclude module: 'okhttp'
     }
     implementation "com.squareup.retrofit2:converter-gson:$versions.RETROFIT"

@@ -26,7 +26,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-ext.versions = [ANDROID_SUPPORT  : "27.1.0",
+ext.versions = [ANDROID_SUPPORT  : "27.1.1",
                 CONSTRAINT_LAYOUT: "1.1.0-beta6",
                 ESPRESSO         : "2.2.2",
                 RETROFIT         : "2.3.0",
