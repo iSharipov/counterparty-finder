@@ -30,7 +30,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private static String EXTRA_INFO = "extra_info";
     private DataAnswerDto dataAnswerDto;
-    private Map<Boolean, Integer> bookmarkIds;
+    public static Map<Boolean, Integer> bookmarkIds;
     private Realm realm;
     @BindView(R.id.bookmark)
     ImageView bookmark;
@@ -57,10 +57,14 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_toolbar)
     Toolbar toolbar;
 
-    public DetailActivity() {
+    static {
         bookmarkIds = new HashMap<>();
         bookmarkIds.put(Boolean.TRUE, R.drawable.ic_bookmark_red_24dp);
         bookmarkIds.put(Boolean.FALSE, R.drawable.ic_bookmark_border_gray_24dp);
+    }
+
+    public DetailActivity() {
+
     }
 
     public static void start(Activity activity, String hid) {

@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.isharipov.counterpartyfinder.R;
 import com.isharipov.counterpartyfinder.data.network.dto.PreviewDto;
+import com.isharipov.counterpartyfinder.ui.detail.DetailActivity;
 import com.isharipov.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import com.isharipov.counterpartyfinder.ui.recent.holder.RecentListViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 31.03.2018.
@@ -47,7 +48,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentListViewHolder> im
         holder.getInn().setText(previewDto.getInn());
         holder.getAddress().setText(previewDto.getAddress());
         holder.itemView.setBackgroundColor(previewDto.getIsFavorite() ? Color.YELLOW : Color.WHITE);
-//        holder.getIsFavorite().setImageResource();
+        holder.getIsFavorite().setImageResource(DetailActivity.bookmarkIds.get(previewDto.getIsFavorite()));
     }
 
     @Override
