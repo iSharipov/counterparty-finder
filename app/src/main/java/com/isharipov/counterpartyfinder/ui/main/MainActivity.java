@@ -13,11 +13,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import java.util.Date;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.isharipov.counterpartyfinder.R;
 import com.isharipov.counterpartyfinder.data.db.repository.BaseDao;
 import com.isharipov.counterpartyfinder.data.db.repository.model.DataAnswerDto;
@@ -32,6 +27,12 @@ import com.isharipov.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListen
 import com.isharipov.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import com.isharipov.counterpartyfinder.ui.main.watcher.SearchTextWatcher;
 import com.isharipov.counterpartyfinder.ui.recent.RecentActivity;
+
+import java.util.Date;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
     private Realm realm;
 
     @BindView(R.id.main_view)
-    public RecyclerView mainView;
+    RecyclerView mainView;
     @BindView(R.id.search)
-    public EditText search;
+    EditText search;
     @BindView(R.id.pb_loading_indicator)
-    public FrameLayout progressBar;
+    FrameLayout progressBar;
     @BindView(R.id.error_layout)
-    public View errorView;
+    View errorView;
     @BindView(R.id.main_toolbar)
-    public Toolbar toolbar;
+    Toolbar toolbar;
 
     private DataSuggestion dataSuggestion;
     private TextWatcher textWatcher;
@@ -60,9 +61,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initToolbar();
+        initRealm();
+        initMainView(savedInstanceState);
+    }
+
+    private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.search_title);
+    }
+
+    private void initRealm() {
         realm = Realm.getDefaultInstance();
+    }
+
+    private void initMainView(Bundle savedInstanceState) {
         mainView.setHasFixedSize(true);
         mainView.setLayoutManager(new LinearLayoutManager(this));
         if (savedInstanceState != null) {

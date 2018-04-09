@@ -74,11 +74,29 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+        initToolbar();
+        initRealm();
+        initDataAnswerDto();
+        populateUi();
+    }
+
+    private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.detail_title);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+
+    private void initRealm() {
         realm = Realm.getDefaultInstance();
+    }
+
+    private void initDataAnswerDto() {
         String hid = (String) getIntent().getSerializableExtra(EXTRA_INFO);
         dataAnswerDto = BaseDao.get(realm, DataAnswerDto.class, hid);
+    }
+
+    private void populateUi() {
         bookmark.setImageResource(bookmarkIds.get(dataAnswerDto.getIsFavorite()));
         innDetail.setText(dataAnswerDto.getInn());
         branchTypeValue.setText(StringUtils.capitalize(dataAnswerDto.getBranchType()));

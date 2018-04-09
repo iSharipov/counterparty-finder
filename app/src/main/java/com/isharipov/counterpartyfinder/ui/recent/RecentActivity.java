@@ -19,11 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.Date;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.isharipov.counterpartyfinder.R;
 import com.isharipov.counterpartyfinder.data.db.repository.BaseDao;
 import com.isharipov.counterpartyfinder.data.db.repository.model.DataAnswerDto;
@@ -32,6 +27,12 @@ import com.isharipov.counterpartyfinder.mapper.DataAnswerDtoToPreviewDtoMapper;
 import com.isharipov.counterpartyfinder.ui.detail.DetailActivity;
 import com.isharipov.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import com.isharipov.counterpartyfinder.ui.recent.adapter.RecentAdapter;
+
+import java.util.Date;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.Sort;
 
@@ -65,9 +66,23 @@ public class RecentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recent);
         ButterKnife.bind(this);
+        initToolbar();
+        initRealm();
+        initRecentView();
+    }
+
+    private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.recent_title);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+
+    private void initRealm() {
         realm = Realm.getDefaultInstance();
+    }
+
+    private void initRecentView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recentView.setLayoutManager(linearLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
