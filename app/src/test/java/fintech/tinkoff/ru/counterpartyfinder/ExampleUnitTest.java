@@ -1,4 +1,4 @@
-package fintech.tinkoff.ru.counterpartyfinder;
+package com.isharipov.counterpartyfinder;
 
 import org.junit.Test;
 
