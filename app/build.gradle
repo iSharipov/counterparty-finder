@@ -9,7 +9,9 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
     }
     buildTypes {
         release {
@@ -18,8 +20,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField "String", "DADATA_API_KEY", DadataApiKey
-        it.buildConfigField "String", "GOOGLE_MAPS_API_KEY", GoogleMapsApiKey
+        it.buildConfigField "String", "DADATA_API_KEY", DADATA_API_KEY
     }
     compileOptions {
         targetCompatibility 1.8

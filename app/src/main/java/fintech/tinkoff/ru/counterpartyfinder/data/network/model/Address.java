@@ -12,5 +12,5 @@ public class Address implements Serializable {
     private String value;
     @SerializedName("unrestricted_value")
     private String unrestrictedValue;
-    private Data data;
+    private AddressData data;
 }

@@ -18,4 +18,5 @@
     <string name="recent_title">Избранное</string>
     <string name="detail_share">Поделиться</string>
     <string name="detail_title">Детальная информация</string>
+    <string name="detail_map">Показать на карте</string>
 </resources>

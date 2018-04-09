@@ -57,9 +57,10 @@ public abstract class DataAnswerToDataAnswerDtoMapper {
             @Mapping(source = "data.name.shortName", target = "nameShortName"),
             @Mapping(source = "data.address.value", target = "addressValue"),
             @Mapping(source = "data.address.unrestrictedValue", target = "addressUnrestrictedValue"),
+            @Mapping(source = "data.address.data.geoLat", target = "location.geoLat"),
+            @Mapping(source = "data.address.data.geoLon", target = "location.geoLon"),
             @Mapping(source = "data.management.name", target = "managementName"),
-            @Mapping(source = "data.management.post", target = "managementPost"),
-
+            @Mapping(source = "data.management.post", target = "managementPost")
     })
     public abstract DataAnswerDto map(DataAnswer answer);
 

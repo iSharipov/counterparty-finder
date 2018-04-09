@@ -16,7 +16,8 @@
         android:id="@+id/action_detail_map"
         android:icon="@drawable/ic_map_white_24dp"
         android:orderInCategory="200"
-        android:title="@string/detail_share"
+        android:title="@string/detail_map"
+        android:visible="false"
         app:actionProviderClass="android.support.v4.view.ShareActionProvider"
         app:showAsAction="ifRoom" />
 

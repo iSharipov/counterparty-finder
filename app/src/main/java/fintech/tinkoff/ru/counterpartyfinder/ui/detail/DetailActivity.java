@@ -20,6 +20,8 @@ import butterknife.ButterKnife;
 import fintech.tinkoff.ru.counterpartyfinder.R;
 import fintech.tinkoff.ru.counterpartyfinder.data.db.repository.BaseDao;
 import fintech.tinkoff.ru.counterpartyfinder.data.db.repository.model.DataAnswerDto;
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.Location;
+import fintech.tinkoff.ru.counterpartyfinder.ui.map.MapActivity;
 import io.realm.Realm;
 import timber.log.Timber;
 
@@ -118,7 +120,20 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
+        addMapMenuItem(menu);
         return true;
+    }
+
+    private void addMapMenuItem(Menu menu) {
+        if (isMapEnabled()) {
+            MenuItem menuItem = menu.findItem(R.id.action_detail_map);
+            menuItem.setVisible(true);
+        }
+    }
+
+    private boolean isMapEnabled() {
+        Location location = dataAnswerDto.getLocation();
+        return location != null && location.getGeoLat() != null && location.getGeoLon() != null;
     }
 
     @Override
@@ -131,6 +146,8 @@ public class DetailActivity extends AppCompatActivity {
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, createShareMessage(dataAnswerDto));
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 return true;
+            case R.id.action_detail_map:
+                MapActivity.start(this, dataAnswerDto.getHid());
             default:
                 return super.onOptionsItemSelected(item);
         }

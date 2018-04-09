@@ -1,8 +1,10 @@
 package fintech.tinkoff.ru.counterpartyfinder.data.db.repository.model;
 
+
 import java.io.Serializable;
 import java.util.Date;
 
+import fintech.tinkoff.ru.counterpartyfinder.data.network.model.Location;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -51,6 +53,7 @@ public class DataAnswerDto extends RealmObject implements Serializable {
     private RealmList<String> licenses = new RealmList<>();
     private String addressValue;
     private String addressUnrestrictedValue;
+    private Location location;
     private RealmList<String> phones = new RealmList<>();
     private RealmList<String> emails = new RealmList<>();
     private String ogrnDate;
