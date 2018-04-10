@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:elevation="4dp"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -47,8 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/favorite"
-                android:src="@drawable/ic_bookmark_border_gray_24dp"
                 android:foreground="?selectableItemBackground"
+                android:src="@drawable/ic_bookmark_border_gray_24dp"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
@@ -62,7 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/name_detail" />
 
             <TextView
-                android:id="@+id/inn_detail"
+                android:id="@+id/branch_type_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -72,15 +71,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/address_detail" />
 
             <TextView
-                android:id="@+id/branch_type_value"
+                android:id="@+id/inn_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/inn_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toStartOf="@+id/kpp_label"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/inn_detail" />
-
+                app:layout_constraintTop_toBottomOf="@+id/branch_type_value" />
 
             <TextView
                 android:id="@+id/kpp_label"
@@ -89,8 +88,19 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/kpp_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/inn_label"
                 app:layout_constraintTop_toBottomOf="@+id/branch_type_value" />
+
+
+            <TextView
+                android:id="@+id/inn_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="@id/inn_label"
+                app:layout_constraintTop_toBottomOf="@+id/inn_label" />
 
             <TextView
                 android:id="@+id/kpp_value"
@@ -98,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/kpp_label"
                 app:layout_constraintTop_toBottomOf="@+id/kpp_label" />
 
             <TextView

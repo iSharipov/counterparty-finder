@@ -20,4 +20,5 @@
     <string name="detail_title">Детальная информация</string>
     <string name="detail_map">Показать на карте</string>
     <string name="map_title">Местоположение</string>
+    <string name="inn_label">ИНН</string>
 </resources>
