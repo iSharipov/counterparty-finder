@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        showViews();
         textWatcher = new SearchTextWatcher(counter, new SuggestionTaskCompleteListener());
         search.addTextChangedListener(textWatcher);
         hidingScrollListener = new HidingScrollListener() {

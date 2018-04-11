@@ -69,7 +69,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(marker)             // Center Set
-                .zoom(17.5f)                // Zoom
+                .zoom(17.0f)                // Zoom
                 .tilt(30)                   // Tilt of the camera to 30 degrees
                 .build();                   // Creates a CameraPosition from the builder
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
