@@ -9,8 +9,11 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.isharipov.counterpartyfinder.R;
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.search)
     EditText search;
     @BindView(R.id.pb_loading_indicator)
-    FrameLayout progressBar;
+    ViewGroup progressBar;
     @BindView(R.id.error_layout)
     View errorView;
     @BindView(R.id.main_toolbar)
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTaskFailure(Throwable t) {
+            mainView.setAdapter(null);
             errorView.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -109,11 +113,13 @@ public class MainActivity extends AppCompatActivity {
         public void startProgress() {
             errorView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
+            search.setEnabled(false);
         }
 
         @Override
         public void stopProgress() {
             progressBar.setVisibility(View.GONE);
+            search.setEnabled(true);
         }
     }
 
