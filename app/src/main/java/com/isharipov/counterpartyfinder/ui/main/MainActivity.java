@@ -1,6 +1,7 @@
 package com.isharipov.counterpartyfinder.ui.main;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.isharipov.counterpartyfinder.R;
@@ -27,6 +27,7 @@ import com.isharipov.counterpartyfinder.mapper.DataAnswerToPreviewDtoMapper;
 import com.isharipov.counterpartyfinder.ui.detail.DetailActivity;
 import com.isharipov.counterpartyfinder.ui.main.adapter.SuggestionAdapter;
 import com.isharipov.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListener;
+import com.isharipov.counterpartyfinder.ui.main.listener.HidingScrollListener;
 import com.isharipov.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import com.isharipov.counterpartyfinder.ui.main.watcher.SearchTextWatcher;
 import com.isharipov.counterpartyfinder.ui.recent.RecentActivity;
@@ -53,11 +54,14 @@ public class MainActivity extends AppCompatActivity {
     ViewGroup progressBar;
     @BindView(R.id.error_layout)
     View errorView;
+    @BindView(R.id.appBarLayout)
+    AppBarLayout appBarLayout;
     @BindView(R.id.main_toolbar)
     Toolbar toolbar;
 
     private DataSuggestion dataSuggestion;
     private TextWatcher textWatcher;
+    private HidingScrollListener hidingScrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,12 +159,35 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         textWatcher = new SearchTextWatcher(counter, new SuggestionTaskCompleteListener());
         search.addTextChangedListener(textWatcher);
+        hidingScrollListener = new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        };
+        mainView.addOnScrollListener(hidingScrollListener);
+    }
+
+    private void hideViews() {
+        search.animate().translationY(-search.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+        mainView.setClipToPadding(false);
+    }
+
+    private void showViews() {
+        mainView.setClipToPadding(true);
+        search.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         search.removeTextChangedListener(textWatcher);
+        mainView.removeOnScrollListener(hidingScrollListener);
     }
 
 
