@@ -1,5 +1,6 @@
 package com.isharipov.counterpartyfinder.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,7 @@ import com.isharipov.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListen
 import com.isharipov.counterpartyfinder.ui.main.listener.HidingScrollListener;
 import com.isharipov.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import com.isharipov.counterpartyfinder.ui.main.watcher.SearchTextWatcher;
+import com.isharipov.counterpartyfinder.ui.pref.SettingsPrefActivity;
 import com.isharipov.counterpartyfinder.ui.recent.RecentActivity;
 
 import java.util.Date;
@@ -210,6 +212,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_recent) {
             RecentActivity.start(this);
+        }
+        if (id == R.id.action_settings){
+            startActivity(new Intent(MainActivity.this, SettingsPrefActivity.class));
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

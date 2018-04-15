@@ -31,6 +31,7 @@
         <activity
             android:name=".ui.map.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.pref.SettingsPrefActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

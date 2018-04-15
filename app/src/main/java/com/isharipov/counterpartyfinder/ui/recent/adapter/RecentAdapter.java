@@ -83,7 +83,14 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentListViewHolder> im
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                previewDtosFiltered = (List<PreviewDto>) filterResults.values;
+                List<?> result = (List<?>) filterResults.values;
+                List<PreviewDto> tempList = new ArrayList<>();
+                for (Object object : result) {
+                    if (object instanceof PreviewDto) {
+                        tempList.add((PreviewDto) object);
+                    }
+                }
+                previewDtosFiltered = tempList;
                 notifyDataSetChanged();
             }
         };

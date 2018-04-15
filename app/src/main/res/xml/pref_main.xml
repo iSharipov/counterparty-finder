@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <PreferenceCategory android:title="Общие">
+        <ListPreference
+            android:defaultValue="5"
+            android:dialogTitle="Количество организаций"
+            android:summary="Вы можете выбрать от 1 до 20 организаций"
+            android:title="Количество организаций в запросе"
+            android:entries="@array/pref_suggestion_piece"
+            android:entryValues="@array/pref_suggestion_piece_values" />
+    </PreferenceCategory>
+</PreferenceScreen>

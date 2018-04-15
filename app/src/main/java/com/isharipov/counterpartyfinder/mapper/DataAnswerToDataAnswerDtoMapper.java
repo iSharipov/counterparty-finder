@@ -60,7 +60,17 @@ public abstract class DataAnswerToDataAnswerDtoMapper {
             @Mapping(source = "data.address.data.geoLat", target = "location.geoLat"),
             @Mapping(source = "data.address.data.geoLon", target = "location.geoLon"),
             @Mapping(source = "data.management.name", target = "managementName"),
-            @Mapping(source = "data.management.post", target = "managementPost")
+            @Mapping(source = "data.management.post", target = "managementPost"),
+            @Mapping(target = "branchType", ignore = true),
+            @Mapping(target = "stateActualityDate", ignore = true),
+            @Mapping(target = "stateStatus", ignore = true),
+            @Mapping(target = "stateRegistrationDate", ignore = true),
+            @Mapping(target = "stateLiquidationDate", ignore = true),
+            @Mapping(target = "ogrnDate", ignore = true),
+            @Mapping(target = "tapDate", ignore = true),
+            @Mapping(target = "isFavorite", ignore = true),
+            @Mapping(target = "type", ignore = true)
+
     })
     public abstract DataAnswerDto map(DataAnswer answer);
 
