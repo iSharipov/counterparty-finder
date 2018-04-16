@@ -5,11 +5,12 @@
 
     <PreferenceCategory android:title="Общие">
         <ListPreference
-            android:defaultValue="5"
+            android:defaultValue="13"
             android:dialogTitle="Количество организаций"
-            android:summary="Вы можете выбрать от 1 до 20 организаций"
-            android:title="Количество организаций в запросе"
             android:entries="@array/pref_suggestion_piece"
-            android:entryValues="@array/pref_suggestion_piece_values" />
+            android:entryValues="@array/pref_suggestion_piece_values"
+            android:key="pref_suggestionPiece"
+            android:summary="Вы можете выбрать от 1 до 20 организаций"
+            android:title="Количество организаций в запросе" />
     </PreferenceCategory>
 </PreferenceScreen>

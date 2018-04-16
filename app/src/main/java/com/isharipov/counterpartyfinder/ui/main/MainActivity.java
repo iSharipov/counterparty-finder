@@ -1,7 +1,9 @@
 package com.isharipov.counterpartyfinder.ui.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String DATA_SUGGESTION = "DATA_SUGGESTION";
     private static final String SEARCH = "SEARCH";
-    private static int counter = 20;
-    private Realm realm;
-
     @BindView(R.id.main_view)
     RecyclerView mainView;
     @BindView(R.id.search)
@@ -60,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
     AppBarLayout appBarLayout;
     @BindView(R.id.main_toolbar)
     Toolbar toolbar;
-
+    private SharedPreferences sharedPref;
+    private int suggestionPiecePref;
+    private Realm realm;
     private DataSuggestion dataSuggestion;
     private TextWatcher textWatcher;
     private HidingScrollListener hidingScrollListener;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         initToolbar();
         initRealm();
         initMainView(savedInstanceState);
+        initPreferences();
     }
 
     private void initToolbar() {
@@ -88,16 +90,92 @@ public class MainActivity extends AppCompatActivity {
         mainView.setHasFixedSize(true);
         mainView.setLayoutManager(new LinearLayoutManager(this));
         if (savedInstanceState != null) {
-            dataSuggestion = (DataSuggestion) savedInstanceState.getSerializable(DATA_SUGGESTION);
             search.setText(savedInstanceState.getString(SEARCH));
-            populateUI();
+            dataSuggestion = (DataSuggestion) savedInstanceState.getSerializable(DATA_SUGGESTION);
+            if (dataSuggestion != null && dataSuggestion.getSuggestions() != null && !dataSuggestion.getSuggestions().isEmpty()) {
+                populateUI();
+            }
         }
+    }
+
+    private void initPreferences() {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        suggestionPiecePref = Integer.valueOf(sharedPref.getString(SettingsPrefActivity.KEY_PREF_SUGGESTION_PIECE, "10"));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         realm.close();
+    }
+
+    private void populateUI() {
+        List<PreviewDto> previews = DataAnswerToPreviewDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions());
+        SuggestionAdapter adapter = new SuggestionAdapter(previews, new SuggestionListClickListener());
+        mainView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showViews();
+        textWatcher = new SearchTextWatcher(suggestionPiecePref, new SuggestionTaskCompleteListener());
+        search.addTextChangedListener(textWatcher);
+        hidingScrollListener = new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        };
+        mainView.addOnScrollListener(hidingScrollListener);
+    }
+
+    private void hideViews() {
+        search.animate().translationY(-search.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+        mainView.setClipToPadding(false);
+    }
+
+    private void showViews() {
+        mainView.setClipToPadding(true);
+        search.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        search.removeTextChangedListener(textWatcher);
+        mainView.removeOnScrollListener(hidingScrollListener);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(DATA_SUGGESTION, dataSuggestion);
+        outState.putString(SEARCH, search.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_recent) {
+            RecentActivity.start(this);
+        }
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsPrefActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class SuggestionTaskCompleteListener implements AsyncTaskCompleteListener<DataSuggestion> {
@@ -149,75 +227,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    private void populateUI() {
-        List<PreviewDto> previews = DataAnswerToPreviewDtoMapper.INSTANCE.map(dataSuggestion.getSuggestions());
-        SuggestionAdapter adapter = new SuggestionAdapter(previews, new SuggestionListClickListener());
-        mainView.setAdapter(adapter);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        showViews();
-        textWatcher = new SearchTextWatcher(counter, new SuggestionTaskCompleteListener());
-        search.addTextChangedListener(textWatcher);
-        hidingScrollListener = new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                hideViews();
-            }
-
-            @Override
-            public void onShow() {
-                showViews();
-            }
-        };
-        mainView.addOnScrollListener(hidingScrollListener);
-    }
-
-    private void hideViews() {
-        search.animate().translationY(-search.getHeight()).setInterpolator(new AccelerateInterpolator(2));
-        mainView.setClipToPadding(false);
-    }
-
-    private void showViews() {
-        mainView.setClipToPadding(true);
-        search.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        search.removeTextChangedListener(textWatcher);
-        mainView.removeOnScrollListener(hidingScrollListener);
-    }
-
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(DATA_SUGGESTION, dataSuggestion);
-        outState.putString(SEARCH, search.getText().toString());
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_recent) {
-            RecentActivity.start(this);
-        }
-        if (id == R.id.action_settings){
-            startActivity(new Intent(MainActivity.this, SettingsPrefActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }

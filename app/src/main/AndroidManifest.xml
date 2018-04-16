@@ -6,7 +6,7 @@
 
     <application
         android:name=".app.CounterpartyFinderApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -31,8 +31,13 @@
         <activity
             android:name=".ui.map.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.pref.SettingsPrefActivity" />
-
+        <activity
+            android:name=".ui.pref.SettingsPrefActivity"
+            android:parentActivityName=".ui.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity" />
+        </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
