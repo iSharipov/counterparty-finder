@@ -29,6 +29,12 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private static ThreadLocal<SimpleDateFormat> registrationDateFormatHolder = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        }
+    };
     private static String EXTRA_INFO = "extra_info";
     private DataAnswerDto dataAnswerDto;
     public static Map<Boolean, Integer> bookmarkIds;
@@ -126,8 +132,7 @@ public class DetailActivity extends AppCompatActivity {
         opfTypeValue.setText(dataAnswerDto.getOpfType());
         managementFioValue.setText(dataAnswerDto.getManagementName());
         managementPostValue.setText(dataAnswerDto.getManagementPost());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        registrationDateValue.setText(sdf.format(dataAnswerDto.getStateRegistrationDate()));
+        registrationDateValue.setText(registrationDateFormatHolder.get().format(dataAnswerDto.getStateRegistrationDate()));
         organizationStatusValue.setText(capitalize(dataAnswerDto.getStateStatus()));
     }
 
@@ -193,9 +198,15 @@ public class DetailActivity extends AppCompatActivity {
     private String createShareMessage(DataAnswerDto dataAnswerDto) {
         StringBuilder sb = new StringBuilder();
         String lineSeparator = System.getProperty("line.separator");
-        sb.append("ИНН:");
-        sb.append(dataAnswerDto.getInn());
-        sb.append(lineSeparator);
+        sb.append("Наименование: ").append(dataAnswerDto.getValue()).append(lineSeparator)
+                .append(dataAnswerDto.getNameFullWithOpf()).append(lineSeparator)
+                .append("Адрес: ").append(dataAnswerDto.getAddressValue()).append(lineSeparator)
+                .append("ОГРН / ИНН: ").append(dataAnswerDto.getOgrn()).append(" / ").append(dataAnswerDto.getInn()).append(lineSeparator)
+                .append("Дата регистрации: ").append(registrationDateFormatHolder.get().format(dataAnswerDto.getStateRegistrationDate())).append(" ").append(capitalize(dataAnswerDto.getStateStatus())).append(lineSeparator)
+                .append("КПП: ").append(dataAnswerDto.getKpp()).append(lineSeparator)
+                .append("Код ОПФ: ").append(dataAnswerDto.getOpfCode()).append(lineSeparator)
+                .append("Код ОКВЭД: ").append(dataAnswerDto.getOkved()).append("(").append(dataAnswerDto.getOkvedType()).append(")").append(lineSeparator)
+                .append("Генеральный директор: ").append(dataAnswerDto.getManagementName());
         return sb.toString();
     }
 }
