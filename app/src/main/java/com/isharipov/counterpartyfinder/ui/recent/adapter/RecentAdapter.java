@@ -57,6 +57,15 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentListViewHolder> im
     }
 
 
+    public void removeItem(int position) {
+        previewDtosFiltered.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void restoreItem(PreviewDto previewDto, int position) {
+        previewDtosFiltered.add(position, previewDto);
+    }
+
     @Override
     public Filter getFilter() {
         return new Filter() {

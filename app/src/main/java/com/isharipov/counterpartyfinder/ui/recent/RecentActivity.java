@@ -8,12 +8,15 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +30,9 @@ import com.isharipov.counterpartyfinder.mapper.DataAnswerDtoToPreviewDtoMapper;
 import com.isharipov.counterpartyfinder.ui.detail.DetailActivity;
 import com.isharipov.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import com.isharipov.counterpartyfinder.ui.recent.adapter.RecentAdapter;
+import com.isharipov.counterpartyfinder.ui.recent.helper.RecyclerItemTouchHelper;
+import com.isharipov.counterpartyfinder.ui.recent.helper.RecyclerItemTouchHelperListener;
+import com.isharipov.counterpartyfinder.ui.recent.holder.RecentListViewHolder;
 
 import java.util.Date;
 import java.util.List;
@@ -41,7 +47,7 @@ import static io.realm.Sort.DESCENDING;
 /**
  * 31.03.2018.
  */
-public class RecentActivity extends AppCompatActivity {
+public class RecentActivity extends AppCompatActivity implements RecyclerItemTouchHelperListener {
 
     private Realm realm;
     private List<DataAnswerDto> allByFieldsSorted;
@@ -49,7 +55,11 @@ public class RecentActivity extends AppCompatActivity {
     private Sort[] sorts = new Sort[]{DESCENDING, DESCENDING};
     private RecentAdapter recentAdapter;
     private SearchView searchView;
+    private List<PreviewDto> previews;
 
+
+    @BindView(R.id.recent_layout)
+    ConstraintLayout recentLayout;
     @BindView(R.id.recent_view)
     RecyclerView recentView;
     @BindView(R.id.recent_toolbar)
@@ -90,13 +100,16 @@ public class RecentActivity extends AppCompatActivity {
                 linearLayoutManager.getOrientation()
         );
         recentView.addItemDecoration(dividerItemDecoration);
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recentView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         allByFieldsSorted = BaseDao.getAllByFieldsSorted(realm, DataAnswerDto.class, fields, sorts);
-        List<PreviewDto> previews = DataAnswerDtoToPreviewDtoMapper.INSTANCE.map(allByFieldsSorted);
+        previews = DataAnswerDtoToPreviewDtoMapper.INSTANCE.map(allByFieldsSorted);
         recentAdapter = new RecentAdapter(previews, new RecentListClickListener());
         recentView.setAdapter(recentAdapter);
     }
@@ -105,6 +118,21 @@ public class RecentActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         recentView.setAdapter(null);
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof RecentListViewHolder) {
+            PreviewDto previewDto = previews.get(position);
+            int deleteIndex = viewHolder.getAdapterPosition();
+            if (BaseDao.delete(realm, DataAnswerDto.class, previewDto.getHid())) {
+                recentAdapter.removeItem(deleteIndex);
+                Snackbar.make(recentLayout, previewDto.getCounterpartyName() + " Удалено из избранных!", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(recentLayout, "Не удалось удалить эдемент из избранных! " + previewDto.getCounterpartyName(), Snackbar.LENGTH_LONG).show();
+            }
+
+        }
     }
 
     class RecentListClickListener implements RecyclerViewClickListener {
@@ -150,12 +178,8 @@ public class RecentActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        int id = item.getItemId();
         if (id == R.id.recent_search) {
             return true;
         }
