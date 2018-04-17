@@ -131,6 +131,36 @@
                 app:layout_constraintTop_toBottomOf="@+id/ogrn_label" />
 
             <TextView
+                android:id="@+id/registration_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/registration_date_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ogrn_value" />
+
+            <TextView
+                android:id="@+id/registration_date_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/registration_date_label" />
+
+            <TextView
+                android:id="@+id/organization_status_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toEndOf="@id/registration_date_value"
+                app:layout_constraintTop_toBottomOf="@+id/registration_date_label" />
+
+            <TextView
                 android:id="@+id/okved_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -138,7 +168,7 @@
                 android:text="@string/okved_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ogrn_value" />
+                app:layout_constraintTop_toBottomOf="@+id/registration_date_value" />
 
             <TextView
                 android:id="@+id/okved_code_label"

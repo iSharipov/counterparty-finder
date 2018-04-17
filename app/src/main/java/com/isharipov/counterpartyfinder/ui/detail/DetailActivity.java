@@ -16,15 +16,15 @@ import com.isharipov.counterpartyfinder.data.db.repository.model.DataAnswerDto;
 import com.isharipov.counterpartyfinder.data.network.model.Location;
 import com.isharipov.counterpartyfinder.ui.map.MapActivity;
 
-import org.apache.commons.lang3.StringUtils;
-
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import timber.log.Timber;
+
+import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -54,6 +54,10 @@ public class DetailActivity extends AppCompatActivity {
     TextView managementPostValue;
     @BindView(R.id.branch_type_value)
     TextView branchTypeValue;
+    @BindView(R.id.registration_date_value)
+    TextView registrationDateValue;
+    @BindView(R.id.organization_status_value)
+    TextView organizationStatusValue;
     @BindView(R.id.detail_toolbar)
     Toolbar toolbar;
 
@@ -103,7 +107,7 @@ public class DetailActivity extends AppCompatActivity {
     private void populateUi() {
         bookmark.setImageResource(bookmarkIds.get(dataAnswerDto.getIsFavorite()));
         innDetail.setText(dataAnswerDto.getInn());
-        branchTypeValue.setText(StringUtils.capitalize(dataAnswerDto.getBranchType()));
+        branchTypeValue.setText(capitalize(dataAnswerDto.getBranchType()));
         nameDetail.setText(dataAnswerDto.getValue());
         addressDetail.setText(dataAnswerDto.getAddressValue());
         kppValue.setText(dataAnswerDto.getKpp());
@@ -112,6 +116,9 @@ public class DetailActivity extends AppCompatActivity {
         okvedTypeValue.setText(dataAnswerDto.getOkvedType());
         managementFioValue.setText(dataAnswerDto.getManagementName());
         managementPostValue.setText(dataAnswerDto.getManagementPost());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        registrationDateValue.setText(sdf.format(dataAnswerDto.getStateRegistrationDate()));
+        organizationStatusValue.setText(capitalize(dataAnswerDto.getStateStatus()));
     }
 
     @Override
@@ -128,9 +135,6 @@ public class DetailActivity extends AppCompatActivity {
             realm.executeTransaction(realm1 -> dataAnswerDto.setIsFavorite(!dataAnswerDto.getIsFavorite()));
             BaseDao.add(realm, dataAnswerDto);
             imageView.setImageResource(bookmarkIds.get(dataAnswerDto.getIsFavorite()));
-            DataAnswerDto dataAnswerDto2 = BaseDao.get(realm, DataAnswerDto.class, dataAnswerDto.getHid());
-
-            Timber.i("Ответ от realm %s", dataAnswerDto2);
         });
     }
 

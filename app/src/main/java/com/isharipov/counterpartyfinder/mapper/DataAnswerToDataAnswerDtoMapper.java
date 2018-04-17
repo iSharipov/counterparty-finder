@@ -1,5 +1,13 @@
 package com.isharipov.counterpartyfinder.mapper;
 
+import com.isharipov.counterpartyfinder.data.db.repository.model.DataAnswerDto;
+import com.isharipov.counterpartyfinder.data.network.model.Branch;
+import com.isharipov.counterpartyfinder.data.network.model.Data;
+import com.isharipov.counterpartyfinder.data.network.model.DataAnswer;
+import com.isharipov.counterpartyfinder.data.network.model.State;
+import com.isharipov.counterpartyfinder.data.network.model.Status;
+import com.isharipov.counterpartyfinder.data.network.model.Type;
+
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,13 +18,6 @@ import org.mapstruct.factory.Mappers;
 import java.util.Date;
 import java.util.List;
 
-import com.isharipov.counterpartyfinder.data.db.repository.model.DataAnswerDto;
-import com.isharipov.counterpartyfinder.data.network.model.Branch;
-import com.isharipov.counterpartyfinder.data.network.model.Data;
-import com.isharipov.counterpartyfinder.data.network.model.DataAnswer;
-import com.isharipov.counterpartyfinder.data.network.model.State;
-import com.isharipov.counterpartyfinder.data.network.model.Status;
-import com.isharipov.counterpartyfinder.data.network.model.Type;
 import io.realm.RealmList;
 
 /**
@@ -98,7 +99,7 @@ public abstract class DataAnswerToDataAnswerDtoMapper {
         }
     }
 
-    private String convertLongToDateString(Long time) {
-        return (time != null) ? new Date(time).toString() : "";
+    private Date convertLongToDateString(Long time) {
+        return (time != null) ? new Date(time) : null;
     }
 }

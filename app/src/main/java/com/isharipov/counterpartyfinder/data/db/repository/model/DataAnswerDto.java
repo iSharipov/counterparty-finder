@@ -31,9 +31,9 @@ public class DataAnswerDto extends RealmObject implements Serializable {
     private String qc;
     private String type;
     private String stateStatus;
-    private String stateActualityDate;
-    private String stateRegistrationDate;
-    private String stateLiquidationDate;
+    private Date stateActualityDate;
+    private Date stateRegistrationDate;
+    private Date stateLiquidationDate;
     private String opfType;
     private String opfCode;
     private String opfFull;
@@ -56,7 +56,7 @@ public class DataAnswerDto extends RealmObject implements Serializable {
     private Location location;
     private RealmList<String> phones = new RealmList<>();
     private RealmList<String> emails = new RealmList<>();
-    private String ogrnDate;
+    private Date ogrnDate;
     private String okvedType;
     private String tapDate = new Date().toString();
     private Boolean isFavorite = Boolean.FALSE;
