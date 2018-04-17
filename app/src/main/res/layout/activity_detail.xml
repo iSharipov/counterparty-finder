@@ -61,6 +61,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/name_detail" />
 
             <TextView
+                android:id="@+id/name_full_with_opf_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="#94989e"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/address_detail" />
+
+            <TextView
                 android:id="@+id/branch_type_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +79,7 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/address_detail" />
+                app:layout_constraintTop_toBottomOf="@+id/name_full_with_opf_value" />
 
             <TextView
                 android:id="@+id/inn_label"
@@ -212,6 +223,57 @@
                 app:layout_constraintTop_toBottomOf="@+id/okved_type_label" />
 
             <TextView
+                android:id="@+id/opf_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/opf_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/okved_code_value" />
+
+            <TextView
+                android:id="@+id/opf_code_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/opf_code_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                app:layout_constraintEnd_toStartOf="@+id/okved_type_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/opf_label" />
+
+
+            <TextView
+                android:id="@+id/opf_type_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/opf_type_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/opf_code_label"
+                app:layout_constraintTop_toBottomOf="@+id/opf_label" />
+
+            <TextView
+                android:id="@+id/opf_code_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="@+id/opf_code_label"
+                app:layout_constraintTop_toBottomOf="@+id/opf_code_label" />
+
+            <TextView
+                android:id="@+id/opf_type_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="@+id/opf_type_label"
+                app:layout_constraintTop_toBottomOf="@+id/opf_type_label" />
+
+            <TextView
                 android:id="@+id/management_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -219,7 +281,7 @@
                 android:text="@string/management_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/okved_code_value" />
+                app:layout_constraintTop_toBottomOf="@+id/opf_code_value" />
 
             <TextView
                 android:id="@+id/management_fio_label"

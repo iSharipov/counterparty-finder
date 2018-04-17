@@ -18,6 +18,7 @@ import com.isharipov.counterpartyfinder.ui.map.MapActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -40,6 +41,8 @@ public class DetailActivity extends AppCompatActivity {
     TextView nameDetail;
     @BindView(R.id.address_detail)
     TextView addressDetail;
+    @BindView(R.id.name_full_with_opf_value)
+    TextView nameFullWithOpfValue;
     @BindView(R.id.kpp_value)
     TextView kppValue;
     @BindView(R.id.ogrn_value)
@@ -48,6 +51,10 @@ public class DetailActivity extends AppCompatActivity {
     TextView okvedCodeValue;
     @BindView(R.id.okved_type_value)
     TextView okvedTypeValue;
+    @BindView(R.id.opf_code_value)
+    TextView opfCodeValue;
+    @BindView(R.id.opf_type_value)
+    TextView opfTypeValue;
     @BindView(R.id.management_fio_value)
     TextView managementFioValue;
     @BindView(R.id.management_post_value)
@@ -110,13 +117,16 @@ public class DetailActivity extends AppCompatActivity {
         branchTypeValue.setText(capitalize(dataAnswerDto.getBranchType()));
         nameDetail.setText(dataAnswerDto.getValue());
         addressDetail.setText(dataAnswerDto.getAddressValue());
+        nameFullWithOpfValue.setText(dataAnswerDto.getNameFullWithOpf());
         kppValue.setText(dataAnswerDto.getKpp());
         ogrnValue.setText(dataAnswerDto.getOgrn());
         okvedCodeValue.setText(dataAnswerDto.getOkved());
         okvedTypeValue.setText(dataAnswerDto.getOkvedType());
+        opfCodeValue.setText(dataAnswerDto.getOpfCode());
+        opfTypeValue.setText(dataAnswerDto.getOpfType());
         managementFioValue.setText(dataAnswerDto.getManagementName());
         managementPostValue.setText(dataAnswerDto.getManagementPost());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         registrationDateValue.setText(sdf.format(dataAnswerDto.getStateRegistrationDate()));
         organizationStatusValue.setText(capitalize(dataAnswerDto.getStateStatus()));
     }

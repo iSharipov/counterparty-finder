@@ -23,4 +23,7 @@
     <string name="inn_label">ИНН</string>
     <string name="action_settings">Настройки</string>
     <string name="registration_date_label">Дата регистрации</string>
+    <string name="opf_label">ОПФ</string>
+    <string name="opf_code_label">Код</string>
+    <string name="opf_type_label">Тип</string>
 </resources>
