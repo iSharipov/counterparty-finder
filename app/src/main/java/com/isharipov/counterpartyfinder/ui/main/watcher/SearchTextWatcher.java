@@ -41,7 +41,7 @@ public class SearchTextWatcher implements TextWatcher {
         final Handler handler = new Handler();
         timer.cancel();
         timer = new Timer();
-        long delay = 400;
+        long delay = 500;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
