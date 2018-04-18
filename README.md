@@ -34,7 +34,7 @@ a. Апишка — https://dadata.ru/api/suggest/#about-party
 
 Репозиторий - https://bitbucket.org/iliasharipov/counterparty-finder
 Основная ветка - master
-В проект необходимо добавить файл graddle.properties в которм указать API ключи для работы с сервисами
+В проект необходимо добавить файл gradle.properties в которм указать API ключи для работы с сервисами
 Dadata и Google Maps
 DADATA_API_KEY="YOUR_API_KEY"
 GOOGLE_MAPS_API_KEY="YOUR_API_KEY"
