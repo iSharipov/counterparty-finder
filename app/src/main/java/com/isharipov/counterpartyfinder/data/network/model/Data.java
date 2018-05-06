@@ -22,7 +22,7 @@ public class Data implements Serializable {
     @SerializedName("branch_type")
     private String branchType;
     @SerializedName("branch_count")
-    private Long branchCount;
+    private String branchCount;
     private String source;
     private String qc;
     @PrimaryKey
