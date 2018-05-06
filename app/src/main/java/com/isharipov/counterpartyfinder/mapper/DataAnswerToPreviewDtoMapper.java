@@ -23,7 +23,7 @@ public interface DataAnswerToPreviewDtoMapper {
             @Mapping(target = "counterpartyName", source = "value"),
             @Mapping(target = "inn", source = "data.inn"),
             @Mapping(target = "address", source = "data.address.value"),
-            @Mapping(target = "isFavorite", ignore = true)
+            @Mapping(target = "isFavorite")
     })
     PreviewDto map(DataAnswer answer);
 
