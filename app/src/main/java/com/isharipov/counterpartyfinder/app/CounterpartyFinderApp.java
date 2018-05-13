@@ -1,6 +1,7 @@
 package com.isharipov.counterpartyfinder.app;
 
 import android.app.Application;
+import android.support.multidex.MultiDex;
 
 import com.isharipov.counterpartyfinder.BuildConfig;
 
@@ -17,6 +18,7 @@ public class CounterpartyFinderApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
         if (BuildConfig.DEBUG) {
             Timber.plant(new DebugTree());
         } else {

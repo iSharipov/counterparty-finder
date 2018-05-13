@@ -59,12 +59,13 @@ dependencies {
     annotationProcessor "org.mapstruct:mapstruct-processor:$versions.MAPSTRUCT"
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation "org.apache.commons:commons-lang3:$versions.COMMONS_LANG"
 
     //noinspection GradleDependency
     implementation "com.google.android.gms:play-services-maps:$versions.GOOGLE_MAPS"
 
+    implementation 'com.android.support:multidex:1.0.3'
 }
