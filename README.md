@@ -30,10 +30,8 @@ a. Отобразить маркер на google maps
 6. Технические детали
 a. Апишка — https://dadata.ru/api/suggest/#about-party
 
-## Установка
+# License
 
-Основная ветка - master
-В проект необходимо добавить файл gradle.properties в котором указать API ключи для работы с сервисами
-Dadata и Google Maps
-DADATA_API_KEY="YOUR_API_KEY"
-GOOGLE_MAPS_API_KEY="YOUR_API_KEY"
+App icon based on:
+
+Icons made by Freepik from www.flaticon.com is licensed by CC 3.0 BY

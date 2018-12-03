@@ -121,18 +121,19 @@ public class MainActivity extends AppCompatActivity {
         showViews();
         textWatcher = new SearchTextWatcher(suggestionPiecePref, new SuggestionTaskCompleteListener());
         search.addTextChangedListener(textWatcher);
-        hidingScrollListener = new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                hideViews();
-            }
-
-            @Override
-            public void onShow() {
-                showViews();
-            }
-        };
-        mainView.addOnScrollListener(hidingScrollListener);
+        // TODO: 03/12/2018 Придумать, что делать со скроллером
+//        hidingScrollListener = new HidingScrollListener() {
+//            @Override
+//            public void onHide() {
+//                hideViews();
+//            }
+//
+//            @Override
+//            public void onShow() {
+//                showViews();
+//            }
+//        };
+//        mainView.addOnScrollListener(hidingScrollListener);
     }
 
     private void hideViews() {
