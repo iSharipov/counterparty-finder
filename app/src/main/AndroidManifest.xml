@@ -6,7 +6,7 @@
 
     <application
         android:name=".app.CounterpartyFinderApp"
-        android:label="Поиск по контрагенту"
+        android:label="@string/app_name"
         android:allowBackup="false"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"

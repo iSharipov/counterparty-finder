@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Counterparty Finder</string>
+    <string name="hint_text">Enter INN or OGRN</string>
+    <string name="error_loading">Error while downloading!</string>
+    <string name="kpp_label">KPP</string>
+    <string name="ogrn_label">OGRN</string>
+    <string name="okved_label">OKVED</string>
+    <string name="okved_code_label">Code</string>
+    <string name="okved_version_list_label">Directory version</string>
+    <string name="management_label">Head</string>
+    <string name="management_fio_label">Full name</string>
+    <string name="management_post_label">Position</string>
+    <string name="favorite">favorite</string>
+    <string name="error">Error</string>
+    <string name="recent">Recent</string>
+    <string name="recent_search">Search</string>
+    <string name="search_title">Search</string>
+    <string name="recent_title">Favorites</string>
+    <string name="detail_share">Share</string>
+    <string name="detail_title">Detail information</string>
+    <string name="detail_map">Show on the map</string>
+    <string name="map_title">Location</string>
+    <string name="inn_label">INN</string>
+    <string name="action_settings">Settings</string>
+    <string name="registration_date_label">Registration date</string>
+    <string name="opf_label">OPF</string>
+    <string name="opf_code_label">Code</string>
+    <string name="opf_type_label">Type</string>
+    <string name="delete">Delete</string>
+</resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Counterparty Finder</string>
+    <string name="app_name">Поиск по контрагенту</string>
     <string name="hint_text">Введите ИНН или ОГРН</string>
     <string name="error_loading">Во время загрузки произошла ошибка</string>
     <string name="kpp_label">КПП</string>
