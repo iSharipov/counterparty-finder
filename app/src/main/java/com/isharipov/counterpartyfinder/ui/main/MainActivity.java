@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -162,13 +163,24 @@ public class MainActivity extends AppCompatActivity {
         public void startProgress() {
             errorView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            search.setEnabled(false);
+            enableSearchView(search, false);
         }
 
         @Override
         public void stopProgress() {
             progressBar.setVisibility(View.GONE);
-            search.setEnabled(true);
+            enableSearchView(search, true);
+        }
+    }
+
+    private void enableSearchView(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                enableSearchView(child, enabled);
+            }
         }
     }
 
