@@ -163,26 +163,27 @@ public class MainActivity extends AppCompatActivity {
         public void startProgress() {
             errorView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            enableSearchView(search, false);
+//            enableSearchView(search, false);
         }
 
         @Override
         public void stopProgress() {
             progressBar.setVisibility(View.GONE);
-            enableSearchView(search, true);
+//            enableSearchView(search, true);
         }
     }
 
-    private void enableSearchView(View view, boolean enabled) {
-        view.setEnabled(enabled);
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View child = viewGroup.getChildAt(i);
-                enableSearchView(child, enabled);
-            }
-        }
-    }
+//    private void enableSearchView(View view, boolean enabled) {
+//        view.setEnabled(enabled);
+//        view.setFocusable(true);
+//        if (view instanceof ViewGroup) {
+//            ViewGroup viewGroup = (ViewGroup) view;
+//            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+//                View child = viewGroup.getChildAt(i);
+//                enableSearchView(child, enabled);
+//            }
+//        }
+//    }
 
     class SuggestionListClickListener implements RecyclerViewClickListener {
 

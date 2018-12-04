@@ -72,7 +72,7 @@ public class SettingsPrefActivity extends AppCompatPreferenceActivity {
 
     @Override
     public void onBackPressed() {
+        NavUtils.navigateUpFromSameTask(this);
         super.onBackPressed();
-        finish();
     }
 }
