@@ -2,6 +2,7 @@ package com.isharipov.counterpartyfinder.ui.main.watcher;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
 
@@ -21,7 +22,7 @@ import timber.log.Timber;
  * 08.03.2018.
  */
 
-public class SearchTextWatcher implements TextWatcher {
+public class SearchTextWatcher implements SearchView.OnQueryTextListener {
 
     private Timer timer = new Timer();
     private final int counter;
@@ -32,12 +33,7 @@ public class SearchTextWatcher implements TextWatcher {
         this.completeListener = completeListener;
     }
 
-    @Override
-    public void afterTextChanged(final Editable s) {
-        makeQuery(s);
-    }
-
-    private void makeQuery(Editable s) {
+    private boolean makeQuery(String s) {
         final Handler handler = new Handler();
         timer.cancel();
         timer = new Timer();
@@ -46,7 +42,7 @@ public class SearchTextWatcher implements TextWatcher {
             @Override
             public void run() {
                 handler.post(completeListener::startProgress);
-                DaDataBody daDataBody = new DaDataBody(s.toString(), counter);
+                DaDataBody daDataBody = new DaDataBody(s, counter);
                 DaDataRestClient.getInstance().suggestAsync(daDataBody, new Callback<DataSuggestion>() {
                     @Override
                     public void onResponse(@NonNull Call<DataSuggestion> call, @NonNull Response<DataSuggestion> response) {
@@ -63,15 +59,16 @@ public class SearchTextWatcher implements TextWatcher {
                 });
             }
         }, delay);
+        return true;
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+    public boolean onQueryTextChange(String newText) {
+        return makeQuery(newText);
     }
 }

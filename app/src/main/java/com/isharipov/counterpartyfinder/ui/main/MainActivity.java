@@ -8,15 +8,12 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.isharipov.counterpartyfinder.R;
@@ -30,7 +27,6 @@ import com.isharipov.counterpartyfinder.mapper.DataAnswerToPreviewDtoMapper;
 import com.isharipov.counterpartyfinder.ui.detail.DetailActivity;
 import com.isharipov.counterpartyfinder.ui.main.adapter.SuggestionAdapter;
 import com.isharipov.counterpartyfinder.ui.main.listener.AsyncTaskCompleteListener;
-import com.isharipov.counterpartyfinder.ui.main.listener.HidingScrollListener;
 import com.isharipov.counterpartyfinder.ui.main.listener.RecyclerViewClickListener;
 import com.isharipov.counterpartyfinder.ui.main.watcher.SearchTextWatcher;
 import com.isharipov.counterpartyfinder.ui.pref.SettingsPrefActivity;
@@ -50,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_view)
     RecyclerView mainView;
     @BindView(R.id.search)
-    EditText search;
+    SearchView search;
     @BindView(R.id.pb_loading_indicator)
-    ViewGroup progressBar;
+    ProgressBar progressBar;
     @BindView(R.id.error_layout)
     View errorView;
     @BindView(R.id.appBarLayout)
@@ -63,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private int suggestionPiecePref;
     private Realm realm;
     private DataSuggestion dataSuggestion;
-    private TextWatcher textWatcher;
-    private HidingScrollListener hidingScrollListener;
+    private SearchView.OnQueryTextListener textWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         mainView.setHasFixedSize(true);
         mainView.setLayoutManager(new LinearLayoutManager(this));
         if (savedInstanceState != null) {
-            search.setText(savedInstanceState.getString(SEARCH));
+            search.setQuery(savedInstanceState.getString(SEARCH), true);
             dataSuggestion = (DataSuggestion) savedInstanceState.getSerializable(DATA_SUGGESTION);
             if (dataSuggestion != null && dataSuggestion.getSuggestions() != null && !dataSuggestion.getSuggestions().isEmpty()) {
                 populateUI();
@@ -118,45 +113,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        showViews();
         textWatcher = new SearchTextWatcher(suggestionPiecePref, new SuggestionTaskCompleteListener());
-        search.addTextChangedListener(textWatcher);
-        // TODO: 03/12/2018 Придумать, что делать со скроллером
-//        hidingScrollListener = new HidingScrollListener() {
-//            @Override
-//            public void onHide() {
-//                hideViews();
-//            }
-//
-//            @Override
-//            public void onShow() {
-//                showViews();
-//            }
-//        };
-//        mainView.addOnScrollListener(hidingScrollListener);
-    }
-
-    private void hideViews() {
-        search.animate().translationY(-search.getHeight()).setInterpolator(new AccelerateInterpolator(2));
-        mainView.setClipToPadding(false);
-    }
-
-    private void showViews() {
-        mainView.setClipToPadding(true);
-        search.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        search.removeTextChangedListener(textWatcher);
-        mainView.removeOnScrollListener(hidingScrollListener);
+        search.setOnQueryTextListener(textWatcher);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(DATA_SUGGESTION, dataSuggestion);
-        outState.putString(SEARCH, search.getText().toString());
+        outState.putString(SEARCH, search.getQuery().toString());
         super.onSaveInstanceState(outState);
     }
 
